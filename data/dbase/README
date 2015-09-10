@@ -1,0 +1,14 @@
+The data in a single python database.
+
+Each constituency is represented as follows
+
+NAME : STRING
+YEARS EXISTED : ARRAY OF INTS
+RESULTS : ARRAY OF DICT
+
+Each result is accessed by using the year as a key, and contains
+
+WINNER , VOTES : PAIR OF (STRING,INT)
+SECOND PLACE , VOTES : PAIR OF (STRING,INT)
+ELECTORATE : INT
+TURNOUT : DOUBLE
