@@ -1,14 +1,17 @@
-The data in a single python database.
+The data in a single python database/dictionary.
 
-Each constituency is represented as follows
+The constituencies are a dictionary with the constituency name as a key.
+Each constituency is itself a dictionary, whose key is the election year.
+Both these dictionary keys are strings.
 
-NAME : STRING
-YEARS EXISTED : ARRAY OF INTS
-RESULTS : ARRAY OF DICT
+Each constitutency only has entries for those years for which it existed.
 
 Each result is accessed by using the year as a key, and contains
 
 WINNER , VOTES : PAIR OF (STRING,INT)
 SECOND PLACE , VOTES : PAIR OF (STRING,INT)
-ELECTORATE : INT
+ELECTORATE : INT 
 TURNOUT : DOUBLE
+
+This data format is optimized for following the evolution of constituencies
+as a function of time, other methods of indexing are of course possible.

@@ -18,7 +18,7 @@ Ashfield,Labour,61.5,10628,19448,7030,,,10150,,,47409,77126
 Ashford,Conservative,67.3,30094,10580,3433,,,10798,2467,,57372,85189
 Ashton-under-Lyne,Labour,57.5,8610,19366,943,,,8468,1531,,38918,67714
 Aylesbury,Conservative,68.7,28083,8391,5885,,,10925,2135,,55419,80611
-"Ayr, Carrick and Cumnock",Scottish National Party,71.5,10355,14227,855,25492,,1280,,,52209,72985
+"Ayr Carrick and Cumnock",Scottish National Party,71.5,10355,14227,855,25492,,1280,,,52209,72985
 Central Ayrshire,Scottish National Party,72.6,8803,13410,917,26999,,,645,,50774,69982
 North Ayrshire and Arran,Scottish National Party,71.1,7968,15068,896,28641,,1296,,,53869,75772
 Banbury,Conservative,67.1,30749,12354,3440,,,8050,2686,,58008,86420
@@ -42,21 +42,21 @@ North East Bedfordshire,Conservative,70.2,34891,9247,3418,,,8579,2537,,58672,835
 South West Bedfordshire,Conservative,64.4,28212,10399,2646,,,7941,2106,,51304,79664
 Bermondsey and Old Southwark,Labour,63.8,6051,22146,17657,,,3254,2023,,51424,80604
 Berwick-upon-Tweed,Conservative,69.6,16603,6042,11689,,,4513,1488,,40423,58098
-"Berwickshire, Roxburgh and Selkirk",Scottish National Party,74.2,19817,2700,10294,20145,,1316,631,,55038,74179
+"Berwickshire Roxburgh and Selkirk",Scottish National Party,74.2,19817,2700,10294,20145,,1316,631,,55038,74179
 Bethnal Green and Bow,Labour,63.9,8070,32387,2395,,,3219,4906,,52924,82825
 Beverley and Holderness,Conservative,65.2,25363,13160,2900,,,8794,1802,,52677,80822
 Bexhill and Battle,Conservative,70.1,30245,7797,4199,,,10170,2807,,55218,78796
 Bexleyheath and Crayford,Conservative,67.4,20643,11451,1308,,,9182,950,,43685,64828
 Birkenhead,Labour,62.7,5816,26468,1396,,,3838,1626,,39144,62438
-"Birmingham, Edgbaston",Labour,63,15812,18518,1184,,,4154,1371,,41293,65591
-"Birmingham, Erdington",Labour,53.3,10695,15824,965,,,6040,948,,34684,65128
-"Birmingham, Hall Green",Labour,61.6,8329,28147,5459,,,2131,2200,,47046,76330
-"Birmingham, Hodge Hill",Labour,54.5,4707,28069,2624,,,4651,835,,41039,75302
-"Birmingham, Ladywood",Labour,52.7,4576,26444,1374,,,1805,1501,,35916,68128
-"Birmingham, Northfield",Labour,59.4,15164,17673,1349,,,7106,1169,,42461,71428
-"Birmingham, Perry Barr",Labour,59,8869,23697,2001,,,5032,1330,,41260,69943
-"Birmingham, Selly Oak",Labour,60.3,13137,21584,2517,,,5755,2301,,45294,75092
-"Birmingham, Yardley",Labour,57,5760,17129,10534,,,6637,698,,41151,72146
+"Birmingham Edgbaston",Labour,63,15812,18518,1184,,,4154,1371,,41293,65591
+"Birmingham Erdington",Labour,53.3,10695,15824,965,,,6040,948,,34684,65128
+"Birmingham Hall Green",Labour,61.6,8329,28147,5459,,,2131,2200,,47046,76330
+"Birmingham Hodge Hill",Labour,54.5,4707,28069,2624,,,4651,835,,41039,75302
+"Birmingham Ladywood",Labour,52.7,4576,26444,1374,,,1805,1501,,35916,68128
+"Birmingham Northfield",Labour,59.4,15164,17673,1349,,,7106,1169,,42461,71428
+"Birmingham Perry Barr",Labour,59,8869,23697,2001,,,5032,1330,,41260,69943
+"Birmingham Selly Oak",Labour,60.3,13137,21584,2517,,,5755,2301,,45294,75092
+"Birmingham Yardley",Labour,57,5760,17129,10534,,,6637,698,,41151,72146
 Bishop Auckland,Labour,59.6,12799,16307,1723,,,7015,1545,,39389,66089
 Blackburn,Labour,60.1,12002,24762,955,,,6280,,,43999,73265
 Blackley and Broughton,Labour,51.6,5581,22982,874,,,6108,1567,,37112,71900
@@ -88,8 +88,8 @@ Brentwood and Ongar,Conservative,71.6,30534,6492,4577,,,8724,1397,,51897,72461
 Bridgend,Labour,65.8,12697,14624,1648,,2784,5911,736,,39453,59998
 Bridgwater and West Somerset,Conservative,67.6,25020,9589,6765,,,10437,2636,,54447,80491
 Brigg and Goole,Conservative,63.2,22946,11770,764,,,6694,915,,43270,68486
-"Brighton, Kemptown",Conservative,66.8,18428,17738,1365,,,4446,3187,,45306,67858
-"Brighton, Pavilion",Green,71.4,12448,14904,1525,,,2724,22871,,54676,76557
+"Brighton Kemptown",Conservative,66.8,18428,17738,1365,,,4446,3187,,45306,67858
+"Brighton Pavilion",Green,71.4,12448,14904,1525,,,2724,22871,,54676,76557
 Bristol East,Labour,64.2,14168,18148,2689,,,7152,3827,,46213,71965
 Bristol North West,Conservative,67.6,22767,17823,3214,,,4889,2952,,51805,76626
 Bristol South,Labour,62,12377,19505,4416,,,8381,5861,,50842,81996
@@ -104,9 +104,9 @@ Burnley,Labour,61.6,5374,14951,11707,,,6864,850,,39746,64486
 Burton,Conservative,65.5,24736,13484,1232,,,8658,1224,,49334,75300
 Bury North,Conservative,66.9,18970,18592,932,,,5595,1141,,45230,67580
 Bury South,Labour,63.9,16350,21272,1690,,,6299,1434,,47215,73883
-Bury St Edmunds,Conservative,69,31815,10514,3581,,,8739,4692,,59341,85993
+Bury St. Edmunds,Conservative,69,31815,10514,3581,,,8739,4692,,59341,85993
 Caerphilly,Labour,64.2,6683,17864,935,,5895,7791,937,,40283,62793
-"Caithness, Sutherland and Easter Ross",Scottish National Party,71.9,2326,3061,11987,15831,,981,,,34186,47558
+"Caithness Sutherland and Easter Ross",Scottish National Party,71.9,2326,3061,11987,15831,,981,,,34186,47558
 Calder Valley,Conservative,68.9,23354,18927,2666,,,5950,2090,,53541,77753
 Camberwell and Peckham,Labour,64,6790,32614,2580,,,2413,5187,,51561,80507
 Camborne and Redruth,Conservative,68.5,18452,11448,5687,,,6776,2608,,45868,66944
@@ -134,7 +134,7 @@ Chelmsford,Conservative,68.5,27732,9482,6394,,,7652,1892,,53817,78580
 Chelsea and Fulham,Conservative,63.4,25322,9300,2091,,,2039,1474,,40226,63478
 Cheltenham,Conservative,69.5,24790,3902,18274,,,3808,2689,,53735,77286
 Chesham and Amersham,Conservative,71.8,31138,6712,4761,,,7218,2902,,52731,73423
-City of Chester,Labour,70.8,22025,22118,2870,,,4148,,,51161,72269
+Chester,Labour,70.8,22025,22118,2870,,,4148,,,51161,72269
 Chesterfield,Labour,63.2,8231,21829,6301,,,7523,1352,,45567,72078
 Chichester,Conservative,68.4,32953,6933,4865,,,8540,3742,,57139,83575
 Chingford and Woodford Green,Conservative,65.7,20999,12613,2400,,,5644,1854,,43804,66691
@@ -147,7 +147,7 @@ Clacton,UKIP,64.1,16205,6364,812,,,19642,1184,,44207,68936
 Cleethorpes,Conservative,63.9,21026,13133,1346,,,8356,1013,,45089,70514
 Clwyd South,Labour,63.8,10649,13051,1349,,3620,5480,915,,35064,54996
 Clwyd West,Conservative,64.8,16463,9733,1387,,4651,4988,,,38028,58657
-"Coatbridge, Chryston and Bellshill",Scottish National Party,68.7,3209,17195,549,28696,,1049,,,50698,73813
+"Coatbridge Chryston and Bellshill",Scottish National Party,68.7,3209,17195,549,28696,,1049,,,50698,73813
 Colchester,Conservative,65.5,18919,7852,13344,,,5870,2499,,48593,74203
 Colne Valley,Conservative,68.8,25246,19868,3407,,,5734,1919,,56800,82510
 Congleton,Conservative,70.4,27164,10391,4623,,,6922,1876,,50976,72398
@@ -155,7 +155,7 @@ Copeland,Labour,63.8,14186,16750,1368,,,6148,1179,,39631,62119
 Corby,Conservative,70.4,24023,21611,1458,,,7708,1374,,56174,79775
 North Cornwall,Conservative,71.8,21689,2621,15068,,,6121,2063,,48245,67192
 South East Cornwall,Conservative,71.1,25516,4692,8521,,,7698,2718,,50498,71071
-The Cotswolds,Conservative,72.4,32045,5240,10568,,,6188,2626,,56667,78292
+Cotswolds,Conservative,72.4,32045,5240,10568,,,6188,2626,,56667,78292
 Coventry North East,Labour,55.3,9751,22025,2007,,,6278,1245,,42231,76401
 Coventry North West,Labour,60.7,14048,18557,1810,,,7101,1961,,45246,74597
 Coventry South,Labour,61.2,15284,18472,1779,,,5709,1719,,43699,71380
@@ -164,7 +164,7 @@ Crewe and Nantwich,Conservative,67.4,22445,18825,1374,,,7252,,,49896,74039
 Croydon Central,Conservative,67.7,22753,22588,1152,,,4810,1454,,52941,78171
 Croydon North,Labour,62.3,12149,33513,1919,,,2899,2515,,53522,85951
 Croydon South,Conservative,70.4,31448,14308,3448,,,6068,2154,,57712,82010
-"Cumbernauld, Kilsyth and Kirkintilloch East",Scottish National Party,73.7,3891,14820,1099,29572,,,,,49382,67009
+"Cumbernauld Kilsyth and Kirkintilloch East",Scottish National Party,73.7,3891,14820,1099,29572,,,,,49382,67009
 Cynon Valley,Labour,59.3,3676,14532,830,,5126,4976,799,,30472,51421
 Dagenham and Rainham,Labour,62.3,10492,17830,717,,,12850,806,151,43050,69049
 Darlington,Labour,62.5,14479,17637,1966,,,5392,1444,,41141,65832
@@ -197,22 +197,22 @@ Dudley North,Labour,62.6,11704,15885,478,,,9113,517,,37992,60718
 Dudley South,Conservative,63.3,16723,12453,828,,,7236,970,,38210,60363
 Dulwich and West Norwood,Labour,68.3,11650,27772,5055,,,1606,4844,,51362,75244
 Dumfries and Galloway,Scottish National Party,75.2,16926,13982,953,23440,,1301,,,56602,75249
-"Dumfriesshire, Clydesdale and Tweeddale",Conservative,76.1,20759,7711,1392,19961,,1472,839,,52134,68483
+"Dumfriesshire Clydesdale and Tweeddale",Conservative,76.1,20759,7711,1392,19961,,1472,839,,52134,68483
 East Dunbartonshire,Scottish National Party,81.9,4727,6754,19926,22093,,567,804,,54871,66966
 West Dunbartonshire,Scottish National Party,73.9,3597,16027,816,30198,,,,,51141,69193
 Dundee East,Scottish National Party,72,7206,9603,1387,28765,,,895,,48185,66960
 Dundee West,Scottish National Party,67.5,3852,10592,1057,27684,,,1225,,44714,66287
 Dunfermline and West Fife,Scottish National Party,71.6,6623,17744,2232,28096,,,1195,,55890,78037
-City of Durham,Labour,66.5,10157,21596,5153,,,5232,2687,,45669,68741
+Durham,Labour,66.5,10157,21596,5153,,,5232,2687,,45669,68741
 North Durham,Labour,61.4,8403,22047,2046,,,6404,1246,,40146,65373
 North West Durham,Labour,61.3,10018,20074,3894,,,7265,1567,,42818,69817
 Dwyfor Meirionnydd,Plaid Cymru,65.1,6550,3904,1153,,11811,3126,981,,28913,44395
 Ealing Central and Acton,Labour,71.4,21728,22002,3106,,,1926,1841,,50894,71238
 Ealing North,Labour,65.7,14419,26745,1575,,,3922,1635,,48510,73836
-"Ealing, Southall",Labour,66.1,9387,28147,1550,,,1769,2007,,43321,65495
+"Ealing Southall",Labour,66.1,9387,28147,1550,,,1769,2007,,43321,65495
 Easington,Labour,56.1,4478,21132,834,,,6491,733,,34624,61675
 East Ham,Labour,59.8,6311,40563,856,,,2622,1299,,52290,87378
-"East Kilbride, Strathaven and Lesmahagow",Scottish National Party,72.9,7129,17151,1042,33678,,1221,,,60539,83071
+"East Kilbride Strathaven and Lesmahagow",Scottish National Party,72.9,7129,17151,1042,33678,,1221,,,60539,83071
 East Lothian,Scottish National Party,74.2,11511,18301,1517,25104,,1178,1245,,59014,79481
 Eastbourne,Conservative,67.6,20934,4143,20201,,,6139,1351,,52907,78262
 Eastleigh,Conservative,69.7,23464,7181,14317,,,8783,1513,,55505,79609
@@ -227,7 +227,7 @@ Ellesmere Port and Neston,Labour,68.6,16041,22316,1563,,,5594,990,,46727,68134
 Elmet and Rothwell,Conservative,73,27978,19488,2640,,,6430,1261,,57797,79143
 Eltham,Labour,67.4,15700,18393,1308,,,6481,1275,,43157,63998
 Enfield North,Labour,67.7,19086,20172,1059,,,4133,1303,,46137,68119
-"Enfield, Southgate",Conservative,70.5,22624,17871,1518,,,2109,1690,,45812,64938
+"Enfield Southgate",Conservative,70.5,22624,17871,1518,,,2109,1690,,45812,64938
 Epping Forest,Conservative,67.1,27027,7962,3448,,,9049,1782,,49348,73545
 Epsom and Ewell,Conservative,72.7,33309,8866,5002,,,7117,2116,,57143,78633
 Erewash,Conservative,67.2,20636,17052,1658,,,7792,1184,,48322,71937
@@ -303,7 +303,7 @@ Hexham,Conservative,71.5,22834,10803,2961,,,4302,2445,,43345,60614
 Heywood and Middleton,Labour,60.7,9268,20926,1607,,,15627,1110,,48538,79989
 High Peak,Conservative,69.3,22836,17942,2389,,,5811,1811,,50789,73336
 Hitchin and Harpenden,Conservative,74,31488,11433,4484,,,4917,3053,,55375,74839
-Holborn and St Pancras,Labour,63.2,12014,29062,3555,,,2740,7013,,54917,86864
+Holborn and St. Pancras,Labour,63.2,12014,29062,3555,,,2740,7013,,54917,86864
 Hornchurch and Upminster,Conservative,69.6,27051,11103,1501,,,13977,1411,193,55236,79331
 Hornsey and Wood Green,Labour,72.9,5347,29417,18359,,,1271,3146,,57785,79241
 Horsham,Conservative,72.8,32627,6499,6647,,,7969,2198,,56925,78181
@@ -318,7 +318,7 @@ Hyndburn,Labour,62.8,13676,18076,859,,,9154,1122,,42887,68341
 Ilford North,Labour,62.6,20874,21463,1130,,,4355,1023,,48932,78162
 Ilford South,Labour,54.6,13455,33232,1014,,,2705,1506,,51912,95023
 Inverclyde,Scottish National Party,75.2,4446,13522,1106,24585,,715,,,44607,59350
-"Inverness, Nairn, Badenoch and Strathspey",Scottish National Party,74.6,3410,4311,18029,28838,,1236,1367,,57613,77268
+"Inverness Nairn Badenoch and Strathspey",Scottish National Party,74.6,3410,4311,18029,28838,,1236,1367,,57613,77268
 Ipswich,Conservative,65.4,21794,18061,1400,,,5703,1736,,48694,74498
 Isle of Wight,Conservative,64.6,28591,8984,5235,,,14888,9404,,70300,108804
 Islington North,Labour,67.1,8465,29659,3984,,,1971,5043,,49234,73325
@@ -349,17 +349,17 @@ North West Leicestershire,Conservative,71.4,25505,14132,2033,,,8704,1174,,51548,
 South Leicestershire,Conservative,70.1,28700,11876,3987,,,9363,,,53926,76877
 Leigh,Labour,59.4,10216,24312,1150,,,8903,,,45123,75974
 Lewes,Conservative,72.7,19206,5000,18123,,,5427,2784,,50540,69481
-"Lewisham, Deptford",Labour,64.6,7056,28572,2497,,,2013,5932,,47426,73426
+"Lewisham Deptford",Labour,64.6,7056,28572,2497,,,2013,5932,,47426,73426
 Lewisham East,Labour,58.5,9574,23907,2455,,,3886,2429,,42923,73428
 Lewisham West and Penge,Labour,66.6,11633,24347,3709,,,3764,4077,,48125,72289
 Leyton and Wanstead,Labour,62.9,8939,23858,2304,,,2341,2974,,40705,64746
 Lichfield,Conservative,61.8,28389,10200,2700,,,8082,1976,,51467,83339
 Lincoln,Conservative,63.2,19976,18533,1992,,,5721,,,46852,74121
 Linlithgow and East Falkirk,Scottish National Party,70.8,7384,19121,1252,32055,,1682,,,61597,86955
-"Liverpool, Riverside",Labour,62.4,4245,29835,1719,,,2510,5372,,44263,70950
-"Liverpool, Walton",Labour,61.1,1802,31222,899,,,3445,956,,38403,62868
-"Liverpool, Wavertree",Labour,66.4,4098,28401,2454,,,3375,2140,,40974,61731
-"Liverpool, West Derby",Labour,64.2,2710,30842,959,,,3475,996,,41031,63875
+"Liverpool Riverside",Labour,62.4,4245,29835,1719,,,2510,5372,,44263,70950
+"Liverpool Walton",Labour,61.1,1802,31222,899,,,3445,956,,38403,62868
+"Liverpool Wavertree",Labour,66.4,4098,28401,2454,,,3375,2140,,40974,61731
+"Liverpool West Derby",Labour,64.2,2710,30842,959,,,3475,996,,41031,63875
 Livingston,Scottish National Party,69.9,5929,15893,1232,32736,,1757,,,57547,82373
 Llanelli,Labour,65,5534,15948,751,,8853,6269,689,,38574,59314
 Loughborough,Conservative,71.6,25762,16579,2130,,,5704,1845,,52020,72644
@@ -373,8 +373,8 @@ Maidstone and The Weald,Conservative,68.3,22745,5268,12036,,,7930,1396,,50010,73
 Makerfield,Labour,60.2,8752,23208,1639,,,10053,1136,,44788,74370
 Maldon,Conservative,69.2,29112,5690,2157,,,7042,1504,,48045,69455
 Manchester Central,Labour,46.1,6133,27772,1867,,,5033,3838,,45331,98435
-"Manchester, Gorton",Labour,57.6,4063,28187,1782,,,3434,4108,,42019,72959
-"Manchester, Withington",Labour,62,4872,26843,11970,,,2172,4048,,49966,80590
+"Manchester Gorton",Labour,57.6,4063,28187,1782,,,3434,4108,,42019,72959
+"Manchester Withington",Labour,62,4872,26843,11970,,,2172,4048,,49966,80590
 Mansfield,Labour,60.9,13288,18603,1642,,,11850,1486,,47193,77534
 Meon Valley,Conservative,71.1,31578,5656,4987,,,7665,1831,,51717,72738
 Meriden,Conservative,64.9,28791,9996,2638,,,8908,2170,,52603,81079
@@ -410,7 +410,7 @@ North Norfolk,Liberal Democrat,71.7,15256,5043,19299,,,8328,1488,,49414,68958
 North West Norfolk,Conservative,65.4,24727,10779,1673,,,8412,1780,,47371,72400
 South Norfolk,Conservative,72.4,30995,10502,4689,,,7847,3090,,57123,78885
 South West Norfolk,Conservative,65.1,25515,8649,2217,,,11654,2075,,50110,76970
-"Normanton, Pontefract and Castleford",Labour,55.6,9569,25213,1330,,,9785,,,45897,82592
+"Normanton Pontefract and Castleford",Labour,55.6,9569,25213,1330,,,9785,,,45897,82592
 Northampton North,Conservative,66.6,16699,13454,1401,,,6354,1503,,39411,59147
 Northampton South,Conservative,63.4,16163,12370,1673,,,7114,1403,,38884,61284
 South Northamptonshire,Conservative,71.5,36607,10191,3613,,,8204,2247,,60862,85092
@@ -436,8 +436,8 @@ Penistone and Stocksbridge,Labour,65.9,12968,19691,2957,,,10738,,,46854,71048
 Penrith and The Border,Conservative,67.4,26202,6308,3745,,,5353,2313,,43921,65209
 Perth and North Perthshire,Scottish National Party,74.8,17738,4413,2059,27379,,1110,1146,,54200,72447
 Peterborough,Conservative,64.9,18684,16759,1774,,,7485,1218,,47075,72521
-"Plymouth, Moor View",Conservative,61.7,16020,14994,1265,,,9152,1023,,42606,68246
-"Plymouth, Sutton and Devonport",Conservative,65.5,18120,17597,2008,,,6731,3401,,47963,73274
+"Plymouth Moor View",Conservative,61.7,16020,14994,1265,,,9152,1023,,42606,68246
+"Plymouth Sutton and Devonport",Conservative,65.5,18120,17597,2008,,,6731,3401,,47963,73274
 Pontypridd,Labour,64.3,6569,15554,4904,,4348,5085,992,,37882,58929
 Poole,Conservative,65.3,23745,6102,5572,,,7956,2198,,47393,72557
 Poplar and Limehouse,Labour,62.2,12962,29886,2149,,,3128,2463,,51044,82076
@@ -456,29 +456,29 @@ Reigate,Conservative,69.9,29151,6578,5369,,,6817,3434,,51349,73429
 East Renfrewshire,Scottish National Party,81.1,12465,19295,1069,23013,,888,,,56730,69982
 Rhondda,Labour,60.9,2116,15976,474,,8521,3998,453,,31538,51809
 Ribble Valley,Conservative,67.1,25404,11798,2756,,,8250,2193,,52243,77873
-Richmond (Yorks),Conservative,64.7,27744,7124,3465,,,8194,2313,,53999,83451
+Richmond (Yorkshire),Conservative,64.7,27744,7124,3465,,,8194,2313,,53999,83451
 Richmond Park,Conservative,76.5,34404,7296,11389,,,2464,3548,,59101,77297
 Rochdale,Labour,57.4,7742,20961,4667,,,8519,1382,,45430,79170
 Rochester and Strood,Conservative,66.5,23142,10396,1251,,,16009,1516,,52516,79000
 Rochford and Southend East,Conservative,60.6,20241,10765,1459,,,8948,2195,,43608,71935
 Romford,Conservative,67.7,25067,10268,1413,,,11208,1222,,49178,72594
 Romsey and Southampton North,Conservative,72.8,26285,5749,8573,,,5511,2280,,48398,66519
-"Ross, Skye and Lochaber",Scottish National Party,77.2,2598,2043,14995,20119,,814,1051,,41811,54169
+"Ross Skye and Lochaber",Scottish National Party,77.2,2598,2043,14995,20119,,814,1051,,41811,54169
 Rossendale and Darwen,Conservative,58.4,22847,17193,806,,,6862,1046,,49024,84011
 Rother Valley,Labour,63.3,10945,20501,1992,,,13204,,,47019,74275
 Rotherham,Labour,59.4,4656,19860,1093,,,11414,,225,37823,63698
 Rugby,Conservative,61.6,24040,13695,2776,,,6855,1415,,49006,79557
-"Ruislip, Northwood and Pinner",Conservative,70,30521,10297,2537,,,5598,1801,,51222,73219
+"Ruislip Northwood and Pinner",Conservative,70,30521,10297,2537,,,5598,1801,,51222,73219
 Runnymede and Weybridge,Conservative,67.9,29901,7767,3362,,,6951,2071,,50052,73744
 Rushcliffe,Conservative,75.3,28354,14525,2783,,,5943,3559,,55164,73294
 Rutherglen and Hamilton West,Scottish National Party,69.7,4350,20304,1045,30279,,1301,,,57615,82701
 Rutland and Melton,Conservative,68.4,30383,8383,4407,,,8678,2325,,54603,79789
 Saffron Walden,Conservative,71.4,32926,6791,6079,,,7935,2174,,57563,80615
-St Albans,Conservative,75.1,25392,12660,10076,,,4271,2034,,54433,72507
-St Austell and Newquay,Conservative,65.7,20250,5150,12077,,,8503,2318,,50361,76607
-St Helens North,Labour,61.5,9087,26378,2046,,,6983,1762,,46256,75262
-St Helens South and Whiston,Labour,62.3,7707,28950,2737,,,6766,2237,,48397,77720
-St Ives,Conservative,73.7,18491,4510,16022,,,5720,3051,,48312,65570
+St. Albans,Conservative,75.1,25392,12660,10076,,,4271,2034,,54433,72507
+St. Austell and Newquay,Conservative,65.7,20250,5150,12077,,,8503,2318,,50361,76607
+St. Helens North,Labour,61.5,9087,26378,2046,,,6983,1762,,46256,75262
+St. Helens South and Whiston,Labour,62.3,7707,28950,2737,,,6766,2237,,48397,77720
+St. Ives,Conservative,73.7,18491,4510,16022,,,5720,3051,,48312,65570
 Salford and Eccles,Labour,58.2,8823,21364,1614,,,7806,2251,,43261,74290
 Salisbury,Conservative,72.9,28192,7771,5099,,,6152,2762,,50705,69590
 Scarborough and Whitby,Conservative,64.9,20613,14413,2159,,,8162,2185,,47739,73511
@@ -487,10 +487,10 @@ Sedgefield,Labour,61.6,11432,18275,1370,,,6426,1213,,38716,62860
 Sefton Central,Labour,72.4,14513,26359,2086,,,4879,1184,,49021,67746
 Selby and Ainsty,Conservative,69.4,27725,14168,1920,,,7389,1465,,52804,76082
 Sevenoaks,Conservative,70.9,28531,6448,3937,,,8970,2238,,50124,70741
-"Sheffield, Brightside and Hillsborough",Labour,54.8,4407,22663,1802,,,8856,1712,,40053,73090
+"Sheffield Brightside and Hillsborough",Labour,54.8,4407,22663,1802,,,8856,1712,,40053,73090
 Sheffield Central,Labour,57.4,4917,24308,4278,,,3296,6999,,44173,77014
-"Sheffield, Hallam",Liberal Democrat,75.3,7544,19862,22215,,,3575,1772,,55481,73658
-"Sheffield, Heeley",Labour,60.7,6792,20269,4746,,,7315,2566,,42048,69265
+"Sheffield Hallam",Liberal Democrat,75.3,7544,19862,22215,,,3575,1772,,55481,73658
+"Sheffield Heeley",Labour,60.7,6792,20269,4746,,,7315,2566,,42048,69265
 Sheffield South East,Labour,59.2,7242,21439,2226,,,9128,1117,,41685,70422
 Sherwood,Conservative,69.1,22833,18186,1094,,,7399,1108,,50698,73334
 Shipley,Conservative,71.7,25269,15645,1949,,,4479,2657,,50542,70466
@@ -507,8 +507,8 @@ Somerton and Frome,Conservative,72.2,31960,4419,11692,,,6439,5434,,60309,83527
 South Holland and The Deepings,Conservative,63.9,29303,6122,1466,,,10736,1580,,49207,77015
 South Ribble,Conservative,68.5,24313,18368,2312,,,7377,,,52370,76489
 South Shields,Labour,57.8,6021,18589,639,,,7975,1614,,36265,62730
-"Southampton, Itchen",Conservative,61.8,18656,16340,1595,,,6010,1876,,44710,72309
-"Southampton, Test",Labour,62.1,14207,18017,2121,,,5566,2568,,43652,70285
+"Southampton Itchen",Conservative,61.8,18656,16340,1595,,,6010,1876,,44710,72309
+"Southampton Test",Labour,62.1,14207,18017,2121,,,5566,2568,,43652,70285
 Southend West,Conservative,66.6,22175,8154,4129,,,7803,2083,,44509,66876
 Southport,Liberal Democrat,65.5,12330,8468,13652,,,7429,1230,,44101,67328
 Spelthorne,Conservative,68.6,24386,9114,3163,,,10234,1724,,49079,71592
@@ -620,14 +620,14 @@ Workington,Labour,65.6,11596,16282,1708,,,7538,1149,,38463,58672
 Worsley and Eccles South,Labour,58.3,12654,18600,1100,,,7688,1242,,42048,72174
 East Worthing and Shoreham,Conservative,67.2,24686,9737,3360,,,8267,2605,,49898,74272
 Worthing West,Conservative,67.1,26124,7955,4477,,,9269,2938,,50763,75617
-The Wrekin,Conservative,68.9,22579,11836,1959,,,7620,1443,,45437,65942
+Wrekin,Conservative,68.9,22579,11836,1959,,,7620,1443,,45437,65942
 Wrexham,Labour,64.2,10350,12181,1735,,2501,5072,669,,32719,50992
 Wycombe,Conservative,67.4,26444,11588,4546,,,5198,3086,,51439,76371
 Wyre and Preston North,Conservative,70.6,26528,12377,2712,,,6577,1699,,49893,70697
 Wyre Forest,Conservative,63.8,22394,9523,1228,,,7967,1117,,49440,77451
 Wythenshawe and Sale East,Labour,56.9,11124,21693,1927,,,6354,1658,,43263,75980
 Yeovil,Conservative,69.1,24178,4053,18865,,,7646,2191,,56933,82446
-Ynys M™n,Labour,69.9,7393,10871,751,,10642,5121,,,34926,49944
+Ynys Mon,Labour,69.9,7393,10871,751,,10642,5121,,,34926,49944
 York Central,Labour,63.3,13496,20212,3804,,,4795,4791,,47677,75351
 York Outer,Conservative,68.6,26447,13348,6269,,,5251,2558,,53873,78561
 East Yorkshire,Conservative,61.7,25276,10343,2966,,,8955,1731,,49991,81030
