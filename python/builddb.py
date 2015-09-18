@@ -217,4 +217,6 @@ if args.debug :
     print outputdatabase[constituency]
     print
 
+# Store the list of years available in the database, in order
+outputdatabase["elections"] = [1992,1997,2001,2005,2010,2015]
 outputdatabase.close()

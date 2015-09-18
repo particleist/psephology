@@ -5,11 +5,19 @@ from math import *
 # Shared helper functions for the the main scripts
 
 def nicepartynames(name) :
+  # Defines the uniform party names (the ones on the right hand side) used
+  # to translate the multitude of names in the input csv files.
+  #
+  # NOTE : Labour/Cooperative is reduced to Labour here. While it loses
+  #        some information, this is done because in the very latest
+  #        results (i.e. 2015) the electoral commission dropped the
+  #        distinction, so it cannot help present day analysis. 
+  #
   nicename = { 
                "Lab"                                       : "Labour",
                "Labour"                                    : "Labour",
-               "Labour/Co-operative"                       : "Labour Co-op",
-               "Labour Co-op"                              : "Labour Co-op",
+               "Labour/Co-operative"                       : "Labour",
+               "Labour Co-op"                              : "Labour",
                "Independent Labour"                        : "Independent Labour",
                "Socialist Labour"                          : "SLP",
                "SL"                                        : "SLP",
@@ -103,7 +111,10 @@ def getmargin(constituency,year,outputdatabase) :
 
 def printmarginal(constituency,year,outputdatabase) :
   # Prints out a single constitutency for a given year, winner, runner up, margin
-  print "{:<45}".format(constituency),',',\
-        "{:<25}".format(outputdatabase[constituency][year]["winner"]["party"]+'-'+\
-                        outputdatabase[constituency][year]["second"]["party"]),",",\
+  print "{:<45}".format(constituency),\
+        "{:<30}".format(outputdatabase[constituency][year]["winner"]["party"]+' --- '+\
+                        outputdatabase[constituency][year]["second"]["party"]),\
         "{:.2%}".format(getmargin(constituency,year,outputdatabase))
+
+def possibleresults() :
+  return ["winner","second","third"]

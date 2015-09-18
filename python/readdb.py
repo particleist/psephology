@@ -43,10 +43,12 @@ if args.constituency != "" :
     print 
     keys = []
     for key in outputdatabase :
+      if key == "elections" : continue
       keys.append(key)
     keys.sort()
     for key in keys : print key
 #
 if args.fullprint :
   for constituency in outputdatabase :
+    if constituency == "elections" : continue    
     niceprint(constituency,outputdatabase)
