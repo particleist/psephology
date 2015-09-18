@@ -23,7 +23,11 @@ args = parser.parse_args()
 # by the builddb script. It also lets you print the results for a single constituency
 # for all the years in order.
 
-outputdatabase = shelve.open(args.input)
+try :
+  outputdatabase = shelve.open(args.input)
+except :
+  print 'No shelve database found at the given location, exiting'
+  sys.exit(0)
 
 # Let's print the result out in a nice way! 
 if args.constituency != "" : 

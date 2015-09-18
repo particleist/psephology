@@ -38,10 +38,11 @@ ELECTORATE : INT
 TURNOUT : DOUBLE
 
 This data format is optimized for following the evolution of constituencies
-as a function of time, other methods of indexing are of course possible.
+as a function of time while minimizing duplication of data and hence the
+database size. Other methods of indexing are of course possible. 
 '''
 
-def storeoneentry(outputdatabase,constituency,year,winner,second,electorate,turnout) :
+def storeoneentry(outputdatabase,constituency,year,winner,runnerups,electorate,turnout) :
   # We have all the information now, so fill the dictionary
   # the copy malarkey is to avoid having to use shelve with the
   # writeback option set to true
@@ -53,7 +54,8 @@ def storeoneentry(outputdatabase,constituency,year,winner,second,electorate,turn
     outputdatabase[constituency] = copy
   copy = outputdatabase[constituency]
   copy[year]["winner"]     = winner
-  copy[year]["second"]     = second
+  copy[year]["second"]     = runnerups[0]
+  copy[year]["third"]      = runnerups[1]
   copy[year]["electorate"] = electorate
   copy[year]["turnout"]    = turnout
   outputdatabase[constituency] = copy
@@ -61,7 +63,11 @@ def storeoneentry(outputdatabase,constituency,year,winner,second,electorate,turn
 csv_file_prefix = "../data/csv/"
 csv_file_suffix  = ".csv"
 
-outputdatabase = shelve.open(args.output)
+try :
+  outputdatabase = shelve.open(args.output)
+except :
+  print 'Cannot create shelve database at the given location, exiting'
+  sys.exit(0)
 
 # Note that because the csv file format is different for different years,
 # we will need to implement several reading loops. Let's begin
@@ -77,11 +83,12 @@ for year in ['1992','1997','2001'] :
   foundconstituency = False
   constituency = ""
   winner = {"party" : "", "vote" : 0}
-  second = {"party" : "", "vote" : 0}
+  runnerups = [{"party" : "", "vote" : 0},{"party" : "", "vote" : 0}]
   electorate = 0
   turnout = 0.0
   for line in filetoread : 
-    if not foundconstituency :   
+    if not foundconstituency :
+      runnerup = 0         
       # Find the start of a new constituency result
       # We look for Hold/Gain strings late in the line
       if line.find(' Hold') > 30 or line.find(' Gain') > 30 : 
@@ -97,11 +104,13 @@ for year in ['1992','1997','2001'] :
     # If we got this far we are adding a new constituency result
     resultsecondline = line.split(',')
     if args.debug : print resultsecondline    
-    second["party"] = nicepartynames(resultsecondline[3])
-    second["vote"] = int(resultsecondline[4])
-    storeoneentry(outputdatabase,constituency,year,winner,second,electorate,turnout)
+    runnerups[runnerup]["party"] = nicepartynames(resultsecondline[3])
+    runnerups[runnerup]["vote"] = int(resultsecondline[4])
+    storeoneentry(outputdatabase,constituency,year,winner,runnerups,electorate,turnout)
  
-    foundconstituency = False    
+    runnerup += 1
+    if runnerup > 1 :
+      foundconstituency = False    
  
   filetoread.close()
 
@@ -116,11 +125,12 @@ for year in ['2005','2010'] :
   foundconstituency = False
   constituency = ""
   winner = {"party" : "", "vote" : 0}
-  second = {"party" : "", "vote" : 0}
+  runnerups = [{"party" : "", "vote" : 0},{"party" : "", "vote" : 0}]
   electorate = 0
   turnout = 0.0
   for line in filetoread : 
-    if not foundconstituency :   
+    if not foundconstituency :  
+      runnerup = 0 
       # Find the start of a new constituency result
       # We look for [, which seems to demarcate the constituency number here 
       if line.find('[') > -1 : 
@@ -141,13 +151,15 @@ for year in ['2005','2010'] :
     # If we got this far we are adding a new constituency result
     resultsecondline = line.split(',')
     if args.debug : print resultsecondline   
-    if year == '2005' : 
+    if year == '2005' and runnerups == 0: 
       electorate = int(resultsecondline[0].replace("'",""))    
-    second["party"] = nicepartynames(resultsecondline[4])
-    second["vote"] = int(resultsecondline[5].replace("'",""))
-    storeoneentry(outputdatabase,constituency,year,winner,second,electorate,turnout)
+    runnerups[runnerup]["party"] = nicepartynames(resultsecondline[4])
+    runnerups[runnerup]["vote"] = int(resultsecondline[5].replace("'",""))
+    storeoneentry(outputdatabase,constituency,year,winner,runnerups,electorate,turnout)
  
-    foundconstituency = False    
+    runnerup += 1
+    if runnerup > 1 :
+      foundconstituency = False    
  
   filetoread.close()
 
@@ -161,7 +173,7 @@ for year in ['2015'] :
   # persistency malarkey...
   constituency = ""
   winner = {"party" : "", "vote" : 0}
-  second = {"party" : "", "vote" : 0}
+  runnerups = [{"party" : "", "vote" : 0},{"party" : "", "vote" : 0}]
   electorate = 0
   turnout = 0.0
   partyorder = ["Con","Lab","LD","SNP","PC","UKIP","Green","BNP"] 
@@ -191,9 +203,10 @@ for year in ['2015'] :
     if args.debug : print votes
     winner["party"] = nicepartynames(votes[0][1])
     winner["vote"]  = votes[0][0]
-    second["party"] = nicepartynames(votes[1][1])
-    second["vote"]  = votes[1][0]
-    storeoneentry(outputdatabase,constituency,year,winner,second,electorate,turnout)
+    for runnerup in [0,1] :
+      runnerups[runnerup]["party"] = nicepartynames(votes[runnerup+1][1])
+      runnerups[runnerup]["vote"]  = votes[runnerup+1][0]
+    storeoneentry(outputdatabase,constituency,year,winner,runnerups,electorate,turnout)
  
   filetoread.close()
 
