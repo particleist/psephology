@@ -119,9 +119,19 @@ def marginals_between(party1, party2, year, cutoff, printout = True) :
 def swing(party1, party2, year, printout = True) :
   # This analysis prints an ordered list of swings from party1 to party2 in a given
   # election, with respect to the previous election. Only seats contested in both
-  # elections are counted.
+  # elections are counted. 
+  #
+  # The swing is defined as half the change between the score differences of the parties
+  # from the first election to the second one
   #
   # Get the previous election year
+  if printout :
+    print
+    print '------------------------------------------------------------'
+    print 'Starting printout of swings from',party1,"to",party2,'in',year
+    print '------------------------------------------------------------'
+    print
+  #
   former_year = str(outputdatabase["elections"][outputdatabase["elections"].index(int(year))-1])
   year = str(year)
   if args.debug : print former_year, year
@@ -144,7 +154,34 @@ def swing(party1, party2, year, printout = True) :
     # OK they did, carry on now
     if args.debug : 
       niceprint(constituency,outputdatabase)
-    
+    party1_scores = []
+    party2_scores = []
+    # This loop works because each party only has one entry per seat per year
+    for election in [former_year,year] :
+      for result in possibleresults() :
+        if party1 == outputdatabase[constituency][election][result]["party"] :
+          party1_scores.append(outputdatabase[constituency][election][result]["vote"])
+        elif party2 == outputdatabase[constituency][election][result]["party"] :
+          party2_scores.append(outputdatabase[constituency][election][result]["vote"])       
+    # The percentage swing
+    thisswing = 100.0*(party2_scores[1]-party1_scores[1])/(outputdatabase[constituency][year]["electorate"]*outputdatabase[constituency][year]["turnout"]) - \
+                100.0*(party2_scores[0]-party1_scores[0])/(outputdatabase[constituency][former_year]["electorate"]*outputdatabase[constituency][former_year]["turnout"])
+    # The absolute swing
+    thisswing_abs = (party2_scores[1]-party1_scores[1]) - (party2_scores[0]-party1_scores[0])
+    swings.append((thisswing/2.,thisswing_abs/2.,constituency))
+  #
+  # Now print it out
+  #
+  swings.sort()
+  for swing in swings :
+    print "{:40}".format(swing[2]),"{:0.2%}".format(swing[0]), "{:10}".format(swing[1])
+  #
+  if printout :
+    print
+    print '------------------------------------------------------------'
+    print 'Finished printout of swings from',party1,"to",party2,'in',year
+    print '------------------------------------------------------------'
+    print
   return swings
 
 if args.marginals : 
