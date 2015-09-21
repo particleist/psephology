@@ -34,6 +34,7 @@ Each result is accessed by using the year as a key, and contains
 
 WINNER , VOTES : PAIR OF (STRING,INT)
 SECOND PLACE , VOTES : PAIR OF (STRING,INT)
+THIRD PLACE , VOTES : PAIR OF (STRING,INT)
 ELECTORATE : INT 
 TURNOUT : DOUBLE
 

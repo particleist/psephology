@@ -9,3 +9,6 @@ builddb : This builds the database used by the other scripts.
 readdb  : An example script to read the database. Can print
           all results for all constituencies, or the result
           for a specific constituency.
+
+analysis : Some basic analysis scripts, including printing out
+           marginals and swings between parties at a given election.
