@@ -151,7 +151,7 @@ for year in ['2005','2010'] :
     # If we got this far we are adding a new constituency result
     resultsecondline = line.split(',')
     if args.debug : print resultsecondline   
-    if year == '2005' and runnerups == 0: 
+    if year == '2005' and runnerup == 0: 
       electorate = int(resultsecondline[0].replace("'",""))    
     runnerups[runnerup]["party"] = nicepartynames(resultsecondline[4])
     runnerups[runnerup]["vote"] = int(resultsecondline[5].replace("'",""))

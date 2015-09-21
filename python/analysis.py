@@ -164,6 +164,7 @@ def swing(party1, party2, year, printout = True) :
         elif party2 == outputdatabase[constituency][election][result]["party"] :
           party2_scores.append(outputdatabase[constituency][election][result]["vote"])       
     # The percentage swing
+    if args.debug : print constituency, outputdatabase[constituency][year]
     thisswing = 100.0*(party2_scores[1]-party1_scores[1])/(outputdatabase[constituency][year]["electorate"]*outputdatabase[constituency][year]["turnout"]) - \
                 100.0*(party2_scores[0]-party1_scores[0])/(outputdatabase[constituency][former_year]["electorate"]*outputdatabase[constituency][former_year]["turnout"])
     # The absolute swing
@@ -173,10 +174,18 @@ def swing(party1, party2, year, printout = True) :
   # Now print it out
   #
   swings.sort()
-  for swing in swings :
-    print "{:40}".format(swing[2]),"{:0.2%}".format(swing[0]), "{:10}".format(swing[1])
-  #
   if printout :
+    totalvoteswing = 0
+    avgpercswing   = 0
+    for swing in swings :
+      print "{:40}".format(swing[2]),"{:0.2%}".format(swing[0]), "{:15}".format(swing[1])
+      totalvoteswing += swing[1]
+      avgpercswing   += swing[0]
+    #
+    avgpercswing /= len(swings)
+    print
+    print 'The average swing from',party1,"to",party2,'in',year,"was","{:0.2%}".format(avgpercswing)
+    print 'The overall vote swing from',party1,"to",party2,'in',year,"was",totalvoteswing
     print
     print '------------------------------------------------------------'
     print 'Finished printout of swings from',party1,"to",party2,'in',year
