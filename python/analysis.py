@@ -12,14 +12,14 @@ from helpers import nicepartynames,possibleresults
 parser = argparse.ArgumentParser(description='Some basic analysis scripts')
 parser.add_argument('--debug', dest='debug', action='store_true',
                     help='Turn on debug mode')
-parser.add_argument('--marginals', dest='marginals', action='store', nargs = 2, type = str,
+parser.add_argument('--marginals', dest='marginals', metavar = ('Year','Percentage'), action='store', nargs = 2, type = str,
                     help='Print out the list of marginals for a given year. If you want to know the\
                           marginals going into the 1997 election, you should run the script for 1992.\
                           Of course this doesn\'t account for boundary changes but those make marginals\
                           a bit tricky to define anyhow. \
                           The correct input format is \'year percentage\', for example\
                           \'1997 5.0\'.')
-parser.add_argument('--marginals_between', dest='marginals_between', action='store', nargs = 4, type = str,
+parser.add_argument('--marginals_between', dest='marginals_between', metavar = ('Holder', 'Challenger', 'Year', 'Percentage'), action='store', nargs = 4, type = str,
                     help='Print out the list of marginals for a given year between two parties. If you want to know the\
                           marginals going into the 1997 election, you should run the script for 1992.\
                           The first party is the one holiding the seat, the second is the challenger.\
@@ -27,13 +27,18 @@ parser.add_argument('--marginals_between', dest='marginals_between', action='sto
                           a bit tricky to define anyhow. \
                           The correct input format is \'holder challenger year percentage\', for example\
                           \'Conservative Labour 1992 5.0\'.')
-parser.add_argument('--swing', dest='swing', action='store', nargs = 3, type = str,
+parser.add_argument('--swing', dest='swing', action='store', metavar = ('Party-from','Party-to','Year'), nargs = 3, type = str,
                     help='Print out the swing between two parties, by seat, for a given election. The\
                           swing is calculated with respect to the previous election. The correct input\
                           format is \'party party year\', for example \'Tory Labour 1997\'. Note that\
                           the swing is FROM the first party TO the second, while negative values indicate swings\
                           from second to first. Only seats contested in both elections count.')
-parser.add_argument('--input', dest='input', action='store',
+parser.add_argument('--gainbyparty', dest='gainbyparty', metavar = ('Party','Year'), action='store', nargs = 2, type = str,
+                    help='Print out the number of votes gained by a party, by seat, for a given election. The\
+                          gain is calculated with respect to the previous election. The correct input\
+                          format is \'party year\', for example \'Labour 1997\'. Note that\
+                          negative values indicate a loss of votes. Only seats contested in both elections count.')
+parser.add_argument('--input', dest='input', action='store',metavar = 'Input-database',
                     default = '../data/dbase/results',
                     help='Set the name of the input file, defaults to ../data/dbase/results')
 
@@ -116,6 +121,79 @@ def marginals_between(party1, party2, year, cutoff, printout = True) :
     print
   return seats
 
+def gainbyparty(party, year, printout = True) :
+  # This analysis prints an ordered list of votes gained by a party in a given
+  # election, with respect to the previous election. Only seats contested in both
+  # elections are counted. 
+  #
+  # Get the previous election year
+  if printout :
+    print
+    print '--------------------------------------------------------------------------------------------------------------------------------------------------------'
+    print 'Starting printout of votes gained by',party,'in',year
+    print '--------------------------------------------------------------------------------------------------------------------------------------------------------'
+    print
+  #
+  former_year = str(outputdatabase["elections"][outputdatabase["elections"].index(int(year))-1])
+  year = str(year)
+  if args.debug : print former_year, year
+  votegains = []
+  alsoin2015 = 0
+  totalvotegain = 0
+  votegaininsafe2015 = 0
+  for constituency in outputdatabase :
+    if constituency == "elections" : continue    
+    # Was it contested in both elections?
+    if not (outputdatabase[constituency].has_key(former_year) and \
+            outputdatabase[constituency].has_key(year) ) :
+      continue 
+    # OK they did, carry on now
+    if args.debug : 
+      niceprint(constituency,outputdatabase)
+    party_scores = []
+    # This loop works because a party only has one entry per seat per year
+    for election in [former_year,year] :
+      for result in possibleresults() :
+        if party == outputdatabase[constituency][election][result]["party"] :
+          party_scores.append(outputdatabase[constituency][election][result]["vote"])
+    if not len(party_scores) == 2 : continue
+    # The votes gaines
+    thisgain_abs = party_scores[1]-party_scores[0]
+    # The percentage majority at the previous election
+    thismajority = getmargin(constituency,year,outputdatabase)
+    formermajority = getmargin(constituency,former_year,outputdatabase)
+    votegains.append((thisgain_abs,thismajority,formermajority,constituency,
+                      outputdatabase[constituency][year]["winner"]["party"],
+                      outputdatabase[constituency][former_year]["winner"]["party"]))
+    totalvotegain += thisgain_abs  
+    if outputdatabase[constituency].has_key('2015') : 
+      alsoin2015 += 1 
+      if outputdatabase[constituency]['2015']["winner"]["party"] == party :
+        votegaininsafe2015 += thisgain_abs
+  #
+  # Now print it out
+  #
+  votegains.sort()
+  if printout :
+    print '--------------------------------------------------------------------------------------------------------------------------------------------------------'
+    print "{:<35}".format("Constituency"), "{:^20}".format("Votes Gained"), "{:^20}".format(str(year)+" winner"), "{:^20}".format(str(year)+" majority"), "{:^20}".format(str(former_year)+" winner"), "{:^20}".format(str(former_year)+" majority")
+    print '--------------------------------------------------------------------------------------------------------------------------------------------------------'
+    for votegain in votegains :
+      print "{:40}".format(votegain[3]),"{:>8}".format(votegain[0]), "{:>21}".format(votegain[4]), "{:>19.2%}".format(votegain[1]), "{:>21}".format(votegain[5]), "{:>19.2%}".format(votegain[2])
+    #
+    print
+    print 'There were',len(votegains),'contituencies in common between the',year,'and',former_year,'elections'
+    print alsoin2015,'of these also existed in the 2015 election'
+    print 'The overall vote gain for',party,'in',year,"was",totalvotegain
+    print 'The overall vote gain in seats',party,'still holds in 2015 was',votegaininsafe2015
+    print
+    print '--------------------------------------------------------------------------------------------------------------------------------------------------------'
+    print 'Finished printout of votes gained by',party,'in',year
+    print '--------------------------------------------------------------------------------------------------------------------------------------------------------'
+    print
+  return votegains
+
+
 def swing(party1, party2, year, printout = True) :
   # This analysis prints an ordered list of swings from party1 to party2 in a given
   # election, with respect to the previous election. Only seats contested in both
@@ -127,9 +205,9 @@ def swing(party1, party2, year, printout = True) :
   # Get the previous election year
   if printout :
     print
-    print '------------------------------------------------------------'
+    print '-------------------------------------------------------------------------------------------------'
     print 'Starting printout of swings from',party1,"to",party2,'in',year
-    print '------------------------------------------------------------'
+    print '-------------------------------------------------------------------------------------------------'
     print
   #
   former_year = str(outputdatabase["elections"][outputdatabase["elections"].index(int(year))-1])
@@ -169,7 +247,9 @@ def swing(party1, party2, year, printout = True) :
                 100.0*(party2_scores[0]-party1_scores[0])/(outputdatabase[constituency][former_year]["electorate"]*outputdatabase[constituency][former_year]["turnout"])
     # The absolute swing
     thisswing_abs = (party2_scores[1]-party1_scores[1]) - (party2_scores[0]-party1_scores[0])
-    swings.append((thisswing/2.,thisswing_abs/2.,constituency))
+    # The percentage majority at the previous election
+    thismajority = 100.0*(party2_scores[0]-party1_scores[0])/(outputdatabase[constituency][former_year]["electorate"]*outputdatabase[constituency][former_year]["turnout"])
+    swings.append((thisswing/2.,thisswing_abs/2.,thismajority,constituency))
   #
   # Now print it out
   #
@@ -177,8 +257,11 @@ def swing(party1, party2, year, printout = True) :
   if printout :
     totalvoteswing = 0
     avgpercswing   = 0
+    print '-------------------------------------------------------------------------------------------------'
+    print "{:<35}".format("Constituency"), "{:^20}".format("Percentage swing"), "{:^20}".format("Absolute swing"), "{:^20}".format(str(year)+" majority")
+    print '-------------------------------------------------------------------------------------------------'
     for swing in swings :
-      print "{:40}".format(swing[2]),"{:0.2%}".format(swing[0]), "{:15}".format(swing[1])
+      print "{:40}".format(swing[3]),"{:>8.2%}".format(swing[0]), "{:>21}".format(swing[1]), "{:>19.2%}".format(swing[2])
       totalvoteswing += swing[1]
       avgpercswing   += swing[0]
     #
@@ -187,9 +270,9 @@ def swing(party1, party2, year, printout = True) :
     print 'The average swing from',party1,"to",party2,'in',year,"was","{:0.2%}".format(avgpercswing)
     print 'The overall vote swing from',party1,"to",party2,'in',year,"was",totalvoteswing
     print
-    print '------------------------------------------------------------'
+    print '-------------------------------------------------------------------------------------------------'
     print 'Finished printout of swings from',party1,"to",party2,'in',year
-    print '------------------------------------------------------------'
+    print '-------------------------------------------------------------------------------------------------'
     print
   return swings
 
@@ -228,3 +311,16 @@ if args.swing :
     sys.exit(1)
  
   swing(party1,party2,year)
+#
+if args.gainbyparty :
+  party = nicepartynames(args.gainbyparty[0])
+  year   = int(args.gainbyparty[1])
+
+  if year not in outputdatabase["elections"] :
+    print "You have asked for a non-existent year, exiting now"
+    sys.exit(1)
+  if year == outputdatabase["elections"][0] :
+    print "I do not have information about the election before",year,"exiting now"
+    sys.exit(1)
+ 
+  gainbyparty(party,year)
