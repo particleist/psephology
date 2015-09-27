@@ -4,7 +4,10 @@ from math import *
 import shelve
 import argparse
 from helpers import niceprint,getmargin,printmarginal
-from helpers import nicepartynames,possibleresults
+from helpers import nicepartynames,possibleresults,getmarginbtwparties
+import numpy as np
+import matplotlib
+import matplotlib.pyplot as plt
 
 # Basic analysis scripts, may get factored in the near future. Comments
 # explaining what each script does can be found within it.
@@ -38,6 +41,12 @@ parser.add_argument('--gainbyparty', dest='gainbyparty', metavar = ('Party','Yea
                           gain is calculated with respect to the previous election. The correct input\
                           format is \'party year\', for example \'Labour 1997\'. Note that\
                           negative values indicate a loss of votes. Only seats contested in both elections count.')
+parser.add_argument('--boundarychanges', dest='boundarychanges', metavar = ('Year-1','Year-2'), action='store', nargs = 2, type = str,
+                    help='Nicely print the seats which changed between two years. The correct input\
+                          format is \'year-1 year-2\', for example \'2001 2015\'.')
+parser.add_argument('--blairslostvotes', dest='blairslostvotes', action='store_true',
+                    help='Perform analysis of electoral utility of the votes Tony Blair lost Labour\
+                          in the 2001 and 2005 elections.')
 parser.add_argument('--input', dest='input', action='store',metavar = 'Input-database',
                     default = '../data/dbase/results',
                     help='Set the name of the input file, defaults to ../data/dbase/results')
@@ -121,10 +130,11 @@ def marginals_between(party1, party2, year, cutoff, printout = True) :
     print
   return seats
 
-def gainbyparty(party, year, printout = True) :
+def gainbyparty(party, year, former_year = -999, printout = True) :
   # This analysis prints an ordered list of votes gained by a party in a given
   # election, with respect to the previous election. Only seats contested in both
-  # elections are counted. 
+  # elections are counted. At the end, a small printout is also made of the overall
+  # totals, and the relevance of these votes to the 2015 picture in the seats 
   #
   # Get the previous election year
   if printout :
@@ -134,13 +144,15 @@ def gainbyparty(party, year, printout = True) :
     print '--------------------------------------------------------------------------------------------------------------------------------------------------------'
     print
   #
-  former_year = str(outputdatabase["elections"][outputdatabase["elections"].index(int(year))-1])
+  if former_year == -999 :
+    former_year = str(outputdatabase["elections"][outputdatabase["elections"].index(int(year))-1])
   year = str(year)
+  former_year = str(former_year)
   if args.debug : print former_year, year
   votegains = []
   alsoin2015 = 0
   totalvotegain = 0
-  votegaininsafe2015 = 0
+  votegainsin2015 = { "Labour" : [], "Conservative" : [], "Lib Dem" : []}
   for constituency in outputdatabase :
     if constituency == "elections" : continue    
     # Was it contested in both elections?
@@ -168,8 +180,9 @@ def gainbyparty(party, year, printout = True) :
     totalvotegain += thisgain_abs  
     if outputdatabase[constituency].has_key('2015') : 
       alsoin2015 += 1 
-      if outputdatabase[constituency]['2015']["winner"]["party"] == party :
-        votegaininsafe2015 += thisgain_abs
+      for winner2015 in ['Labour','Conservative','Lib Dem'] : 
+        if outputdatabase[constituency]['2015']["winner"]["party"] in [winner2015] :
+          votegainsin2015[winner2015].append(thisgain_abs)
   #
   # Now print it out
   #
@@ -185,16 +198,16 @@ def gainbyparty(party, year, printout = True) :
     print 'There were',len(votegains),'contituencies in common between the',year,'and',former_year,'elections'
     print alsoin2015,'of these also existed in the 2015 election'
     print 'The overall vote gain for',party,'in',year,"was",totalvotegain
-    print 'The overall vote gain in seats',party,'still holds in 2015 was',votegaininsafe2015
+    for winner2015 in ['Labour','Conservative','Lib Dem'] : 
+      print 'The overall vote gain in the',len(votegainsin2015[winner2015]),'seats which the',winner2015,'party still holds in 2015 was',sum(votegainsin2015[winner2015])
     print
     print '--------------------------------------------------------------------------------------------------------------------------------------------------------'
     print 'Finished printout of votes gained by',party,'in',year
     print '--------------------------------------------------------------------------------------------------------------------------------------------------------'
     print
-  return votegains
+  return alsoin2015,totalvotegain,votegainsin2015,votegains
 
-
-def swing(party1, party2, year, printout = True) :
+def swing(party1, party2, year, former_year = -999, printout = True) :
   # This analysis prints an ordered list of swings from party1 to party2 in a given
   # election, with respect to the previous election. Only seats contested in both
   # elections are counted. 
@@ -210,8 +223,10 @@ def swing(party1, party2, year, printout = True) :
     print '-------------------------------------------------------------------------------------------------'
     print
   #
-  former_year = str(outputdatabase["elections"][outputdatabase["elections"].index(int(year))-1])
+  if former_year == -999 :
+    former_year = str(outputdatabase["elections"][outputdatabase["elections"].index(int(year))-1])
   year = str(year)
+  former_year = str(former_year)
   if args.debug : print former_year, year
   swings = []
   for constituency in outputdatabase :
@@ -276,6 +291,88 @@ def swing(party1, party2, year, printout = True) :
     print
   return swings
 
+def boundarychanges(year1,year2, printout = True) :
+  # Nicely print out the seats which only existed in each of the two input years, side by side
+  if printout :
+    print
+    print '------------------------------------------------------------'
+    print 'Printing the boundary changes between',year1,'and',year2
+    print '------------------------------------------------------------'
+    print
+    print "{:50}".format("Only in "+year1),"{:50}".format("Only in "+year2)
+    print '------------------------------------------------------------'
+  onlyinyear1 = []
+  onlyinyear2 = []
+  for constituency in outputdatabase :
+    if constituency == "elections" : continue    
+    if   (not outputdatabase[constituency].has_key(year1)) and \
+             (outputdatabase[constituency].has_key(year2)) :
+      onlyinyear2.append(constituency)
+    elif (not outputdatabase[constituency].has_key(year2)) and \
+             (outputdatabase[constituency].has_key(year1)) :
+      onlyinyear1.append(constituency)
+  #
+  # Begin the printout
+  onlyinyear1.sort()
+  onlyinyear2.sort()
+  for i,constituency in enumerate(onlyinyear1) :
+    toprint = "{:50}".format(onlyinyear1[i]) + " " 
+    if (i < len(onlyinyear2) ) :
+      toprint += "{:50}".format(onlyinyear2[i])
+    print toprint
+  #
+  if printout :
+    print
+    print '------------------------------------------------------------'
+    print 'Finished printing the boundary changes between',year1,'and',year2
+    print '------------------------------------------------------------'
+    print
+  return onlyinyear1,onlyinyear2
+
+def blairslostvotes() :
+  # Perform an analysis of the votes lost by Tony Blair in the 2001
+  # and 2005 elections and estimate the electoral utility of regaining them
+  # in 2020. Doesn't account for possible boundary changes after 2015.
+  alsoin2015,totalvoteloss,votelossin2015,voteloss_labour_2005 = gainbyparty('Labour',2005,1997,printout=False)
+  print 'There were',len(voteloss_labour_2005),'contituencies in common between the 2005 and 1997 elections'
+  print alsoin2015,'of these also existed in the 2015 election'
+  print 'The overall votes lost by Blair by 2005 were',totalvoteloss
+  for winner2015 in ['Labour','Conservative','Lib Dem'] : 
+    print 'The overall votes lost in the',len(votelossin2015[winner2015]),'seats which the',winner2015,'party still holds in 2015 were',sum(votelossin2015[winner2015])
+  # OK this is the big picture, now how many of these votes are in useful Tory seats?
+  lostvotes = []
+  margin = []
+  seatsvulnerabletolostvoters = 0
+  print
+  print 'Beginning printout of vote losses by Tory-held 2015 seat'
+  print
+  for constituency in voteloss_labour_2005 :
+    constituency_name = constituency[3]
+    if not outputdatabase[constituency_name].has_key('2015') :
+      continue
+    if outputdatabase[constituency_name]['2015']["winner"]["party"] != "Conservative" : 
+      continue
+    constituency_margin = getmarginbtwparties(constituency_name,'2015','Conservative','Labour',outputdatabase)
+    print "{:50}".format(constituency_name),"{:0.2%}".format(constituency_margin),"{:15}".format(constituency[0])
+    if constituency_margin < 1.0 :
+      margin.append(100.0*constituency_margin)
+      lostvotes.append(constituency[0])
+      if 2.*constituency_margin\
+           *float(outputdatabase[constituency_name]["2015"]["electorate"])\
+           *float(outputdatabase[constituency_name]["2015"]["turnout"])/100.0\
+         <\
+         -1.*float(constituency[0]) :
+        seatsvulnerabletolostvoters += 1
+  print 
+  print 'In total',seatsvulnerabletolostvoters,'could be won by gaining the votes lost by Blair'
+  print
+  # Plot the lost votes
+  plt.scatter(lostvotes,margin)
+  plt.xlabel('Blair\'s lost votes')
+  plt.ylabel('Percentage gap Tory-Labour in 2015')
+  plt.show()
+  return 1
+
 if args.marginals : 
   year = args.marginals[0]
   cutoff = args.marginals[1]
@@ -298,6 +395,19 @@ if args.marginals_between :
 
   marginals_between(party1,party2,year,cutoff)
 #
+if args.gainbyparty :
+  party = nicepartynames(args.gainbyparty[0])
+  year   = int(args.gainbyparty[1])
+
+  if year not in outputdatabase["elections"] :
+    print "You have asked for a non-existent year, exiting now"
+    sys.exit(1)
+  if year == outputdatabase["elections"][0] :
+    print "I do not have information about the election before",year,"exiting now"
+    sys.exit(1)
+ 
+  gainbyparty(party,year)
+#
 if args.swing :
   party1 = nicepartynames(args.swing[0])
   party2 = nicepartynames(args.swing[1])
@@ -312,15 +422,13 @@ if args.swing :
  
   swing(party1,party2,year)
 #
-if args.gainbyparty :
-  party = nicepartynames(args.gainbyparty[0])
-  year   = int(args.gainbyparty[1])
-
-  if year not in outputdatabase["elections"] :
+if args.boundarychanges :
+  year1 = args.boundarychanges[0]
+  year2 = args.boundarychanges[1]
+  if int(year1) not in outputdatabase["elections"] or int(year2) not in outputdatabase["elections"] :
     print "You have asked for a non-existent year, exiting now"
     sys.exit(1)
-  if year == outputdatabase["elections"][0] :
-    print "I do not have information about the election before",year,"exiting now"
-    sys.exit(1)
- 
-  gainbyparty(party,year)
+  boundarychanges(year1,year2)
+#
+if args.blairslostvotes :
+  blairslostvotes()

@@ -32,8 +32,8 @@ def nicepartynames(name) :
                "SNP"                                       : "SNP",
                "Ulster Unionist"                           : "Ulster Unionist",
                "UUP"                                       : "Ulster Unionist",
-               "Democratic Unionist"                       : "Democratic Unionist",
-               "DUP"                                       : "Democratic Unionist",
+               "Democratic Unionist"                       : "DUP",
+               "DUP"                                       : "DUP",
                "Social Democratic and Labour"              : "SDLP",
                "SDLP"                                      : "SDLP",
                "Alliance"                                  : "Alliance",
@@ -57,8 +57,8 @@ def nicepartynames(name) :
                'Ind'                                       : 'Independent',
                'Speaker'                                   : 'The Speaker',               
                'The Speaker'                               : 'The Speaker',
-               'Kidderminster Hospital and Health Concern' : 'Kidderminster Hospital and Health Concern',
-               'KHHC'                                      : 'Kidderminster Hospital and Health Concern',
+               'Kidderminster Hospital and Health Concern' : 'KHHC',
+               'KHHC'                                      : 'KHHC',
                'Scottish Socialist Alliance'               : 'Scottish Socialist Alliance',
                'Resp'                                      : 'Respect',
                'Respect'                                   : 'Respect',
@@ -107,6 +107,17 @@ def getmargin(constituency,year,outputdatabase) :
   totalvoters = int(outputdatabase[constituency][year]["electorate"])*float(outputdatabase[constituency][year]["turnout"])/100.0
   margin = 0.5*(float(outputdatabase[constituency][year]["winner"]["vote"]) - 
             float(outputdatabase[constituency][year]["second"]["vote"]) )/totalvoters
+  return margin 
+
+def getmarginbtwparties(constituency,year,party1,party2,outputdatabase) :
+  # Get the margin for one constituency in a given year between a given two parties
+  totalvoters = int(outputdatabase[constituency][year]["electorate"])*float(outputdatabase[constituency][year]["turnout"])/100.0
+  parties_in_year = {}
+  for result in possibleresults() :
+    parties_in_year[outputdatabase[constituency][year][result]["party"]] = outputdatabase[constituency][year][result]["vote"]
+  if not (parties_in_year.has_key(party1) and parties_in_year.has_key(party2)) :
+    return 1.0
+  margin = 0.5*(float(parties_in_year[party1]) - float(parties_in_year[party2]) )/totalvoters
   return margin 
 
 def printmarginal(constituency,year,outputdatabase) :

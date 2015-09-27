@@ -10,6 +10,8 @@ parser.add_argument('--debug', dest='debug', action='store_true',
                     help='Turn on debug mode')
 parser.add_argument('--fullprint', dest='fullprint', action='store_true',
                     help='Print out the full database in a nice format')
+parser.add_argument('--printall', dest='printall', action='store_true',
+                    help='Print out the full list of constituency names')
 parser.add_argument('--print', dest='constituency', action='store',
                     default = "",
                     help='Print out the entries for a constituency')
@@ -52,3 +54,12 @@ if args.fullprint :
   for constituency in outputdatabase :
     if constituency == "elections" : continue    
     niceprint(constituency,outputdatabase)
+
+if args.printall :
+  orderedlist = []
+  for constituency in outputdatabase :
+    if constituency == "elections" : continue    
+    orderedlist.append(constituency)
+  orderedlist.sort()
+  for item in orderedlist :
+    print item
