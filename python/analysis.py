@@ -15,6 +15,8 @@ import matplotlib.pyplot as plt
 parser = argparse.ArgumentParser(description='Some basic analysis scripts')
 parser.add_argument('--debug', dest='debug', action='store_true',
                     help='Turn on debug mode')
+parser.add_argument('--verbose', dest='verbose', action='store_true',
+                    help='Turn on verbose mode')
 parser.add_argument('--marginals', dest='marginals', metavar = ('Year','Percentage'), action='store', nargs = 2, type = str,
                     help='Print out the list of marginals for a given year. If you want to know the\
                           marginals going into the 1997 election, you should run the script for 1992.\
@@ -84,6 +86,9 @@ def marginals(year, cutoff, printout = True) :
   if printout :
     for seat in seats :
       printmarginal(seat[1],year,outputdatabase)
+      if args.verbose :
+        niceprint(seat[1],outputdatabase,yeartoprint=year)
+        print
   if printout :
     print
     print '------------------------------------------------------------'
@@ -122,6 +127,9 @@ def marginals_between(party1, party2, year, cutoff, printout = True) :
   if printout :
     for seat in seats :
       printmarginal(seat[1],year,outputdatabase)
+      if args.verbose :
+        niceprint(seat[1],outputdatabase,yeartoprint=year)
+        print
   if printout :
     print
     print '------------------------------------------------------------'

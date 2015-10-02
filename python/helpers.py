@@ -87,12 +87,15 @@ def nicepartynames(name) :
              }
   return nicename[name]
 
-def niceprint(constituency,outputdatabase,printorder = ["winner","second","third","electorate","turnout"]) :
+def niceprint(constituency,outputdatabase,yeartoprint = "", printorder = ["winner","second","third","electorate","turnout"]) :
   # Prints out the full result for a single constituency, for all years of existence
   print constituency,":"
   years = []
-  for year in outputdatabase[constituency] :
-    years.append(year)
+  if yeartoprint == "" :
+    for year in outputdatabase[constituency] :
+      years.append(year)
+  else : 
+    years.append(yeartoprint)
   years.sort()
   for year in years :
     print "  ",year,":"
