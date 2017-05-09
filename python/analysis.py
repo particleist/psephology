@@ -8,6 +8,7 @@ from helpers import nicepartynames,possibleresults,getmarginbtwparties
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
+matplotlib.rcParams.update({'font.size': 15})
 
 # Basic analysis scripts, may get factored in the near future. Comments
 # explaining what each script does can be found within it.
@@ -391,15 +392,20 @@ def progvsreactalliance(year='2015') :
   marginals["Conservative-Lib Dem"]  = marginals_between('Conservative','Lib Dem', year, 30.0, printout = False)
   marginals["Labour-Conservative"] = marginals_between('Labour', 'Conservative', year, 30.0, printout = False)
   margins = []
+  abstentions    = []
+  shiftedmargins = []
   shiftinmargins = []
   for partyorder in ["Conservative-Labour","Conservative-Lib Dem","Labour-Conservative"] :
     p1 = partyorder.split('-')[0]
     p2 = partyorder.split('-')[1]
     margin = []
+    abstention    = []
+    shiftedmargin = []
     shiftinmargin = []
     for constituency in marginals[partyorder] :
       constituency_name = constituency[1]
-      totalvoters = int(outputdatabase[constituency_name][year]["electorate"])*float(outputdatabase[constituency_name][year]["turnout"])/100.0
+      totalvoters = int(outputdatabase[constituency_name][year]["electorate"])
+      abstention.append(totalvoters*(100.0-outputdatabase[constituency_name][year]["turnout"])/100.0)
       if outputdatabase[constituency_name][year]["winner"]["party"] == "Conservative" :
         convoters = outputdatabase[constituency_name][year]["winner"]["vote"]
         labvoters = outputdatabase[constituency_name][year]["second"]["vote"]
@@ -415,26 +421,47 @@ def progvsreactalliance(year='2015') :
           labvoters += 0.8 * outputdatabase[constituency_name][year][result]["vote"]
       # Recompute the constituency margin now
       constituency_margin_shifted = 0.5*(convoters - labvoters)/totalvoters
-      margin.append(constituency_margin)
-      shiftinmargin.append(constituency_margin_shifted-constituency_margin)
+      margin.append(100.0*constituency_margin)
+      shiftedmargin.append(2.0*constituency_margin_shifted*totalvoters)
+      shiftinmargin.append(100.0*(constituency_margin_shifted-constituency_margin))
    
       print "{:50}".format(constituency_name),"{:0.2%}".format(constituency_margin),"   ",\
             "{:0.2%}".format(constituency_margin_shifted),"    ","{:0.2f}".format(outputdatabase[constituency_name][year]["turnout"])
     margins.append(margin)
+    abstentions.append(abstention)
+    shiftedmargins.append(shiftedmargin)
     shiftinmargins.append(shiftinmargin)
   # Plot the lost votes
   x = range(-1,1)
   y = range(-1,1)
-  fig = plt.figure()
+  fig = plt.figure("Margin vs. shift")
   ax1 = fig.add_subplot(111)
 
   ax1.scatter(margins[0],shiftinmargins[0],c='r',marker = "s",label='Con-Lab')
   ax1.scatter(margins[1],shiftinmargins[1],c='b',marker = "o",label='Con-LD')
   ax1.scatter(margins[2],shiftinmargins[2],c='g',marker = "d",label='Lab-Con')
-  plt.xlabel('Con-Lab/LD margin '+year)
-  plt.ylabel('Shift towards Con')
-  plt.legend(loc='lower right');
+  plt.xlabel('Con-Lab/LD margin '+year+' (%)')
+  plt.ylabel('Shift towards Con (%)')
+  plt.legend(loc='lower right')
+  plt.plot((-25, 25), (0, 0), 'k--', lw = 3.0)
+  plt.xlim(-25,25)
   plt.show()
+
+  fig2 = plt.figure("Shifted margin vs. abstention")
+  ax2 = fig2.add_subplot(111)
+  ax2.scatter(abstentions[0],shiftedmargins[0],c='r',marker = "s",label='Con-Lab')  
+  ax2.scatter(abstentions[1],shiftedmargins[1],c='b',marker = "o",label='Con-LD')  
+  ax2.scatter(abstentions[2],shiftedmargins[2],c='g',marker = "d",label='Lab-Con')  
+  plt.xlabel('Non-voters in '+year)
+  plt.ylabel('Con lead in seat')
+  plt.legend(loc='lower left')
+  plt.plot((0, 40000), (0, 40000), 'k--', lw = 3.0)
+  plt.plot((0, 160000), (0, 80000), 'k-.', lw = 3.0)
+  plt.plot((0, 160000), (0, 40000), 'k:', lw = 3.0)
+  plt.xlim(10000,40000)
+  plt.ylim(-60000,50000)
+  plt.show()
+
   return 1
 
 if args.marginals : 
