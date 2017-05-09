@@ -19,6 +19,7 @@ def nicepartynames(name) :
                "Labour/Co-operative"                       : "Labour",
                "Labour Co-op"                              : "Labour",
                "Independent Labour"                        : "Independent Labour",
+               'LIND'                                      : "Independent Labour",
                "Socialist Labour"                          : "SLP",
                "SL"                                        : "SLP",
                "SLP"                                       : "SLP",
@@ -50,6 +51,7 @@ def nicepartynames(name) :
                'Scottish Militant Labour'                  : 'Scottish Militant Labour',
                'Social Democrat'                           : 'SDP',
                'SDP'                                       : 'SDP',
+               'Social Democratic'                         : 'SDP',
                'United Kingdom Unionist'                   : 'United Kingdom Unionist',
                'Lib'                                       : 'Liberal',
                'Liberal'                                   : 'Liberal',
@@ -70,24 +72,75 @@ def nicepartynames(name) :
                'GRN'                                       : 'Green',
                'Grn'                                       : 'Green',
                'Green'                                     : 'Green',
+               'TUSC'                                      : 'TUSC',
                'ISGB'                                      : 'ISGB',
                'ICHC'                                      : 'ICHC',
                'BNP'                                       : 'BNP',
                'British National'                          : 'BNP',
                'UKIP'                                      : 'UKIP',
+               'United Kingdom Independence'               : 'UKIP',
+               'Referendum'                                : 'Referendum',
                'National Democratic Resistance'            : 'National Democratic Resistance',
                "Women's Coalition (NI)"                    : "Women's Coalition (NI)",
                'Chairman of Sunrise Radio'                 : 'Chairman of Sunrise Radio',
+               'Scottish Unionist'                         : 'Scottish Unionist',
                'Scottish Socialist'                        : 'SSP',
                'SSP'                                       : 'SSP',
                'Socialist Alliance'                        : 'Socialist Alliance',
                'SA'                                        : 'Socialist Alliance',
+               'Socialist'                                 : 'Socialist',
                "People's Justice"                          : "People's Justice Party",
-               "People's Justice Party"                    : "People's Justice Party" 
+               "People's Justice Party"                    : "People's Justice Party",
+               "Natural Law"                               : "Natural Law",
+               "Independent Conservative"                  : "Independent Conservative",
+               "Independent Ulster Unionist"               : "Independent Ulster Unionist",
+               "The Workers' (NI)"                         : "The Workers' (NI)",
+               'National Front'                            : 'National Front',
+               'NF'                                        : 'National Front',
+               'ED'                                        : 'English Democrats',
+               'Monster Raving Loony'                      : 'Monster Raving Loony',
+               'Raving Loony Green Giant'                  : 'Monster Raving Loony', 
+               "Rock 'n' Roll Loony"                       : 'Monster Raving Loony',
+               'Plaid Cymru/Green'                         : 'Plaid Cymru/Green',
+               'Islamic of Britain'                        : 'Islamic of Britain',
+               'Independent Ind SD'                        : 'Independent Ind SD',
+               "Workers' Revolutionary"                    : "Workers' Revolutionary",
+               'Independent Socialist'                     : 'Independent Socialist',
+               'Independent Nationalist'                   : 'Independent Nationalist',
+               'Anti-Federalist League'                    : 'Anti-Federalist League',
+               'Communist League'                          : 'Communist League',
+               'International Communist'                   : 'International Communist',
+               "Workers'"                                  : "Workers'",
+               "People's Labour"                           : "People's Labour",
+               'Pro-Euro Conservative'                     : 'Pro-Euro Conservative',
+               'Legalise Cannabis Alliance'                : 'Legalise Cannabis Alliance',
+               'Left Alliance'                             : 'Left Alliance',
+               'Socialist Alternative'                     : 'Socialist Alternative',
+               'S Alt'                                     : 'Socialist Alternative',
+               'Ash'                                       : 'Ash',
+               'PAP'                                       : 'PAP',
+               'Ver'                                       : 'Ver',
+               'C Grp'                                     : 'C Grp',
+               'SEA'                                       : 'SEA',
+               'BPP'                                       : 'BPP',
+               'AGS'                                       : 'AGS',
+               'CAP'                                       : 'CAP',
+               'OCV'                                       : 'OCV',
+               'Vote'                                      : 'Vote',
+               'RAL'                                       : 'RAL',
+               'Trust'                                     : 'Trust',
+               'PBP'                                       : 'PBP',
+               'MACI'                                      : 'MACI',
+               'MIF'                                       : 'MIF',
+               'MK'                                        : 'MK',
+               'CPA'                                       : 'CPA'
              }
   return nicename[name]
 
-def niceprint(constituency,outputdatabase,yeartoprint = "", printorder = ["winner","second","third","electorate","turnout"]) :
+def possibleresults() :
+  return ["winner","second","third","fourth"]
+
+def niceprint(constituency,outputdatabase,yeartoprint = "", printorder = possibleresults()+["electorate","turnout"]) :
   # Prints out the full result for a single constituency, for all years of existence
   print constituency,":"
   years = []
@@ -129,6 +182,3 @@ def printmarginal(constituency,year,outputdatabase) :
         "{:<30}".format(outputdatabase[constituency][year]["winner"]["party"]+' --- '+\
                         outputdatabase[constituency][year]["second"]["party"]),\
         "{:.2%}".format(getmargin(constituency,year,outputdatabase))
-
-def possibleresults() :
-  return ["winner","second","third"]

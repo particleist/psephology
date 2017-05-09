@@ -57,6 +57,7 @@ def storeoneentry(outputdatabase,constituency,year,winner,runnerups,electorate,t
   copy[year]["winner"]     = winner
   copy[year]["second"]     = runnerups[0]
   copy[year]["third"]      = runnerups[1]
+  copy[year]["fourth"]     = runnerups[2]
   copy[year]["electorate"] = electorate
   copy[year]["turnout"]    = turnout
   outputdatabase[constituency] = copy
@@ -84,7 +85,7 @@ for year in ['1992','1997','2001'] :
   foundconstituency = False
   constituency = ""
   winner = {"party" : "", "vote" : 0}
-  runnerups = [{"party" : "", "vote" : 0},{"party" : "", "vote" : 0}]
+  runnerups = [{"party" : "", "vote" : 0},{"party" : "", "vote" : 0},{"party" : "", "vote" : 0}]
   electorate = 0
   turnout = 0.0
   for line in filetoread : 
@@ -104,13 +105,16 @@ for year in ['1992','1997','2001'] :
       continue
     # If we got this far we are adding a new constituency result
     resultsecondline = line.split(',')
+    if resultsecondline[3] == '' :
+      foundconstituency = False 
+      continue
     if args.debug : print resultsecondline    
     runnerups[runnerup]["party"] = nicepartynames(resultsecondline[3])
     runnerups[runnerup]["vote"] = int(resultsecondline[4])
     storeoneentry(outputdatabase,constituency,year,winner,runnerups,electorate,turnout)
  
     runnerup += 1
-    if runnerup > 1 :
+    if runnerup > 2 :
       foundconstituency = False    
  
   filetoread.close()
@@ -126,7 +130,7 @@ for year in ['2005','2010'] :
   foundconstituency = False
   constituency = ""
   winner = {"party" : "", "vote" : 0}
-  runnerups = [{"party" : "", "vote" : 0},{"party" : "", "vote" : 0}]
+  runnerups = [{"party" : "", "vote" : 0},{"party" : "", "vote" : 0},{"party" : "", "vote" : 0}]
   electorate = 0
   turnout = 0.0
   for line in filetoread : 
@@ -151,6 +155,9 @@ for year in ['2005','2010'] :
       continue
     # If we got this far we are adding a new constituency result
     resultsecondline = line.split(',')
+    if resultsecondline[4] == '' or resultsecondline[4] == '-----':
+      foundconstituency = False 
+      continue
     if args.debug : print resultsecondline   
     if year == '2005' and runnerup == 0: 
       electorate = int(resultsecondline[0].replace("'",""))    
@@ -159,7 +166,7 @@ for year in ['2005','2010'] :
     storeoneentry(outputdatabase,constituency,year,winner,runnerups,electorate,turnout)
  
     runnerup += 1
-    if runnerup > 1 :
+    if runnerup > 2 :
       foundconstituency = False    
  
   filetoread.close()
@@ -174,7 +181,7 @@ for year in ['2015'] :
   # persistency malarkey...
   constituency = ""
   winner = {"party" : "", "vote" : 0}
-  runnerups = [{"party" : "", "vote" : 0},{"party" : "", "vote" : 0}]
+  runnerups = [{"party" : "", "vote" : 0},{"party" : "", "vote" : 0},{"party" : "", "vote" : 0}]
   electorate = 0
   turnout = 0.0
   partyorder = ["Con","Lab","LD","SNP","PC","UKIP","Green","BNP"] 
@@ -204,7 +211,9 @@ for year in ['2015'] :
     if args.debug : print votes
     winner["party"] = nicepartynames(votes[0][1])
     winner["vote"]  = votes[0][0]
-    for runnerup in [0,1] :
+    for runnerup in [0,1,2] :
+      if votes[runnerup+1][1] == '' :
+        continue
       runnerups[runnerup]["party"] = nicepartynames(votes[runnerup+1][1])
       runnerups[runnerup]["vote"]  = votes[runnerup+1][0]
     storeoneentry(outputdatabase,constituency,year,winner,runnerups,electorate,turnout)
