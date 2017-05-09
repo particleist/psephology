@@ -49,6 +49,8 @@ parser.add_argument('--boundarychanges', dest='boundarychanges', metavar = ('Yea
 parser.add_argument('--blairslostvotes', dest='blairslostvotes', action='store_true',
                     help='Perform analysis of electoral utility of the votes Tony Blair lost Labour\
                           in the 2001 and 2005 elections.')
+parser.add_argument('--progvsreactalliance', dest='progvsreactalliance', metavar = ('year'), action='store', nargs = 1, type = str,
+                    help='Perform analysis of electoral utility of a progressive (Lab-LD-Green) vs. reactionary (Con-UKIP) alliance.')
 parser.add_argument('--input', dest='input', action='store',metavar = 'Input-database',
                     default = '../data/dbase/results',
                     help='Set the name of the input file, defaults to ../data/dbase/results')
@@ -381,6 +383,60 @@ def blairslostvotes() :
   plt.show()
   return 1
 
+def progvsreactalliance(year='2015') :
+  # Perform an analysis of Tory-Labour marginals if 80% of 2015 UKIP votes go to Tories 
+  # while 80% of LD and Green votes go to Labour
+  marginals = {}
+  marginals["Conservative-Labour"] = marginals_between('Conservative','Labour', year, 30.0, printout = False)
+  marginals["Conservative-Lib Dem"]  = marginals_between('Conservative','Lib Dem', year, 30.0, printout = False)
+  marginals["Labour-Conservative"] = marginals_between('Labour', 'Conservative', year, 30.0, printout = False)
+  margins = []
+  shiftinmargins = []
+  for partyorder in ["Conservative-Labour","Conservative-Lib Dem","Labour-Conservative"] :
+    p1 = partyorder.split('-')[0]
+    p2 = partyorder.split('-')[1]
+    margin = []
+    shiftinmargin = []
+    for constituency in marginals[partyorder] :
+      constituency_name = constituency[1]
+      totalvoters = int(outputdatabase[constituency_name][year]["electorate"])*float(outputdatabase[constituency_name][year]["turnout"])/100.0
+      if outputdatabase[constituency_name][year]["winner"]["party"] == "Conservative" :
+        convoters = outputdatabase[constituency_name][year]["winner"]["vote"]
+        labvoters = outputdatabase[constituency_name][year]["second"]["vote"]
+      else :
+        convoters = outputdatabase[constituency_name][year]["second"]["vote"]
+        labvoters = outputdatabase[constituency_name][year]["winner"]["vote"]
+      constituency_margin = 0.5*(convoters - labvoters)/totalvoters
+      # Now add third/fourth place 
+      for result in ["third","fourth"] : 
+        if outputdatabase[constituency_name][year][result]["party"] in ['Conservative','UKIP'] : 
+          convoters += 0.8 * outputdatabase[constituency_name][year][result]["vote"]
+        elif outputdatabase[constituency_name][year][result]["party"] in ['Labour','Lib Dem','Green'] :
+          labvoters += 0.8 * outputdatabase[constituency_name][year][result]["vote"]
+      # Recompute the constituency margin now
+      constituency_margin_shifted = 0.5*(convoters - labvoters)/totalvoters
+      margin.append(constituency_margin)
+      shiftinmargin.append(constituency_margin_shifted-constituency_margin)
+   
+      print "{:50}".format(constituency_name),"{:0.2%}".format(constituency_margin),"   ",\
+            "{:0.2%}".format(constituency_margin_shifted),"    ","{:0.2f}".format(outputdatabase[constituency_name][year]["turnout"])
+    margins.append(margin)
+    shiftinmargins.append(shiftinmargin)
+  # Plot the lost votes
+  x = range(-1,1)
+  y = range(-1,1)
+  fig = plt.figure()
+  ax1 = fig.add_subplot(111)
+
+  ax1.scatter(margins[0],shiftinmargins[0],c='r',marker = "s",label='Con-Lab')
+  ax1.scatter(margins[1],shiftinmargins[1],c='b',marker = "o",label='Con-LD')
+  ax1.scatter(margins[2],shiftinmargins[2],c='g',marker = "d",label='Lab-Con')
+  plt.xlabel('Con-Lab/LD margin '+year)
+  plt.ylabel('Shift towards Con')
+  plt.legend(loc='lower right');
+  plt.show()
+  return 1
+
 if args.marginals : 
   year = args.marginals[0]
   cutoff = args.marginals[1]
@@ -440,3 +496,6 @@ if args.boundarychanges :
 #
 if args.blairslostvotes :
   blairslostvotes()
+
+if args.progvsreactalliance :
+  progvsreactalliance(args.progvsreactalliance[0])
