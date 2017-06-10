@@ -52,6 +52,8 @@ parser.add_argument('--blairslostvotes', dest='blairslostvotes', action='store_t
                           in the 2001 and 2005 elections.')
 parser.add_argument('--progvsreactalliance', dest='progvsreactalliance', metavar = ('year'), action='store', nargs = 1, type = str,
                     help='Perform analysis of electoral utility of a progressive (Lab-LD-Green) vs. reactionary (Con-UKIP) alliance.')
+parser.add_argument('--partyrisevsturnout', dest='partyrisevsturnout', metavar = ('party','year'), action='store', nargs = 2, type = str,
+                    help='Plot votes gained by party vs. increase in seat turnout for a given year')
 parser.add_argument('--input', dest='input', action='store',metavar = 'Input-database',
                     default = '../data/dbase/results',
                     help='Set the name of the input file, defaults to ../data/dbase/results')
@@ -464,6 +466,62 @@ def progvsreactalliance(year='2015') :
 
   return 1
 
+def partyrisevsturnout(party='Labour',year='2017') :
+  # Perform an analysis of how much a party's vote has increased in a given constituency compared to the 
+  # number of extra voters in that constituency since the last election
+  former_year = str(outputdatabase["elections"][outputdatabase["elections"].index(int(year))-1])
+  year = str(year)
+  if args.debug : print former_year, year
+  party_gain = []
+  total_gain = []
+  party_winning_gain = []
+  total_winning_gain = []
+  for constituency in outputdatabase :
+    if constituency == "elections" : continue    
+    # Was it contested in both elections?
+    if not (outputdatabase[constituency].has_key(former_year) and \
+            outputdatabase[constituency].has_key(year) ) :
+      continue 
+    # OK they did, carry on now
+    if args.debug : 
+      niceprint(constituency,outputdatabase)
+    party_scores = []
+    total_votes  = []
+    # This loop works because a party only has one entry per seat per year
+    for election in [former_year,year] :
+      for result in possibleresults() :
+        if party == outputdatabase[constituency][election][result]["party"] :
+          party_scores.append(outputdatabase[constituency][election][result]["vote"])
+          total_votes.append(int(outputdatabase[constituency][election]["electorate"]*outputdatabase[constituency][election]["turnout"]/100.0))
+        
+    if not len(party_scores) == 2 : continue
+    if not len(total_votes)  == 2 : continue
+
+    if (party == outputdatabase[constituency][year]["winner"]["party"]) and \
+       not (party == outputdatabase[constituency][former_year]["winner"]["party"]) :
+      party_winning_gain.append(party_scores[1]-party_scores[0])
+      total_winning_gain.append(total_votes[1]-total_votes[0])
+    else : 
+      party_gain.append(party_scores[1]-party_scores[0])
+      total_gain.append(total_votes[1]-total_votes[0])
+
+  x = range(-20000,20000)
+  y = range(-20000,20000)
+  fig = plt.figure("Extra voters for"+party+" vs. increase in total votes")
+  ax1 = fig.add_subplot(111)
+
+  ax1.scatter(party_gain,total_gain,c='w',s=36,marker = "s",label = 'All seats')
+  ax1.scatter(party_winning_gain,total_winning_gain,c='r',s=36,marker = "s",label='Labour gains')
+  plt.xlabel(party+' votes gained in '+year)
+  plt.ylabel('Extra voters in '+year)
+  plt.legend(loc='lower right')
+  plt.xlim(-9000,16000)
+  plt.ylim(-9000,9000)
+  plt.show()
+
+  return 1
+
+
 if args.marginals : 
   year = args.marginals[0]
   cutoff = args.marginals[1]
@@ -526,3 +584,8 @@ if args.blairslostvotes :
 
 if args.progvsreactalliance :
   progvsreactalliance(args.progvsreactalliance[0])
+
+if args.partyrisevsturnout :
+  partyrisevsturnout(nicepartynames(args.partyrisevsturnout[0]),args.partyrisevsturnout[1])
+
+

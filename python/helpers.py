@@ -133,7 +133,8 @@ def nicepartynames(name) :
                'MACI'                                      : 'MACI',
                'MIF'                                       : 'MIF',
                'MK'                                        : 'MK',
-               'CPA'                                       : 'CPA'
+               'CPA'                                       : 'CPA',
+               'Oth'                                       : 'Other'
              }
   return nicename[name]
 

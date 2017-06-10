@@ -195,7 +195,7 @@ for year in ['2015'] :
     if args.debug : print resultline
     constituency = (resultline[0].rstrip('"').lstrip('"')).split('[')[0].strip()    
     turnout = float(resultline[2])    
-    electorate = int(resultline[-1])    
+    electorate = int(resultline[-1]) 
     counter = 3
     votes = []    
     for party in partyorder :
@@ -220,6 +220,64 @@ for year in ['2015'] :
  
   filetoread.close()
 
+# Now 2017 which is in yet another format, same constituencies as 2015 though
+for year in ['2017'] :
+  print "I am now processing the",year,"data"
+  # open file with electorate/turnout data
+  turnout = {}
+  electorate = {}
+  turnoutfile = open(csv_file_prefix + year + "_turnout" + csv_file_suffix, 'r')
+  for line in turnoutfile :
+    resultline = line.split(':')
+    constituency = (resultline[0].rstrip('"').lstrip('"')).split('[')[0].strip()
+    electorate[constituency] = int((resultline[1].split())[0].replace(',',''))
+    turnout[constituency] = float((resultline[1].split())[1])
+  # open the file
+  filetoread = open(csv_file_prefix + year + csv_file_suffix, 'r')
+  # define the variables used to store a single result
+  # There is probably a smarter way to handle all the shelve
+  # persistency malarkey...
+  constituency = ""
+  winner = {"party" : "", "vote" : 0}
+  runnerups = [{"party" : "", "vote" : 0},{"party" : "", "vote" : 0},{"party" : "", "vote" : 0}]
+  electorate_this = 0.0
+  turnout_this = 0.0
+  partyorder = ["Con","Lab","LD","SNP","PC","UKIP","Green","Ind","Oth"] 
+  for line in filetoread :
+    # just skip the first line
+    if args.debug : print 'Skipping first line in 2017 file for bookkeeping'
+    break
+  for line in filetoread :  
+    # In this file all the data is on a single line
+    resultline = line.split(';')
+    if args.debug : print resultline
+    constituency = (resultline[0].rstrip('"').lstrip('"')).split('[')[0].strip()    
+    electorate_this = int(100*electorate[constituency]/turnout[constituency])
+    turnout_this = turnout[constituency]
+    counter = 6
+    votes = []    
+    for party in partyorder :
+      thisvote = 0
+      if resultline[counter] == '' or resultline[counter] == '-': 
+        thisvote = 0
+      else : 
+        thisvote = int(resultline[counter])
+      votes.append( ( thisvote , party ) )
+      counter += 1
+    votes.sort()
+    votes.reverse()
+    if args.debug : print votes
+    winner["party"] = nicepartynames(votes[0][1])
+    winner["vote"]  = votes[0][0]
+    for runnerup in [0,1,2] :
+      if votes[runnerup+1][1] == '' :
+        continue
+      runnerups[runnerup]["party"] = nicepartynames(votes[runnerup+1][1])
+      runnerups[runnerup]["vote"]  = votes[runnerup+1][0]
+    storeoneentry(outputdatabase,constituency,year,winner,runnerups,electorate_this,turnout_this)
+ 
+  filetoread.close()
+
 # If in debug mode, let's print the result out! 
 if args.debug : 
   for constituency in outputdatabase :
@@ -228,5 +286,5 @@ if args.debug :
     print
 
 # Store the list of years available in the database, in order
-outputdatabase["elections"] = [1992,1997,2001,2005,2010,2015]
+outputdatabase["elections"] = [1992,1997,2001,2005,2010,2015,2017]
 outputdatabase.close()
