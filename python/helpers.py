@@ -182,4 +182,6 @@ def printmarginal(constituency,year,outputdatabase) :
   print "{:<45}".format(constituency),\
         "{:<30}".format(outputdatabase[constituency][year]["winner"]["party"]+' --- '+\
                         outputdatabase[constituency][year]["second"]["party"]),\
-        "{:.2%}".format(getmargin(constituency,year,outputdatabase))
+        "{:.2%}".format(getmargin(constituency,year,outputdatabase)),\
+        "      ",\
+        "{:.2%}".format(outputdatabase[constituency][year]["turnout"]/100)

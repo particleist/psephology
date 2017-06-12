@@ -286,7 +286,7 @@ def swing(party1, party2, year, former_year = -999, printout = True) :
     totalvoteswing = 0
     avgpercswing   = 0
     print '-------------------------------------------------------------------------------------------------'
-    print "{:<35}".format("Constituency"), "{:^20}".format("Percentage swing"), "{:^20}".format("Absolute swing"), "{:^20}".format(str(year)+" majority")
+    print "{:<35}".format("Constituency"), "{:^20}".format("Percentage swing"), "{:^20}".format("Absolute swing"), "{:^20}".format(str(former_year)+" majority")
     print '-------------------------------------------------------------------------------------------------'
     for swing in swings :
       print "{:40}".format(swing[3]),"{:>8.2%}".format(swing[0]), "{:>21}".format(swing[1]), "{:>19.2%}".format(swing[2])
@@ -476,6 +476,16 @@ def partyrisevsturnout(party='Labour',year='2017') :
   total_gain = []
   party_winning_gain = []
   total_winning_gain = []
+  registered_increase = []
+  registered_winning_increase = []
+  turnout_increase = []
+  turnout_winning_increase = []
+  party_majority_prev_5kplus = []
+  party_majority_prev_2kplus = []
+  party_majority_prev_0kplus = []
+  total_gain_in_5kplus = []
+  total_gain_in_2kplus = []
+  total_gain_in_0kplus = []
   for constituency in outputdatabase :
     if constituency == "elections" : continue    
     # Was it contested in both elections?
@@ -487,36 +497,104 @@ def partyrisevsturnout(party='Labour',year='2017') :
       niceprint(constituency,outputdatabase)
     party_scores = []
     total_votes  = []
+    total_registered = [] 
+    total_turnout = []
     # This loop works because a party only has one entry per seat per year
     for election in [former_year,year] :
       for result in possibleresults() :
         if party == outputdatabase[constituency][election][result]["party"] :
           party_scores.append(outputdatabase[constituency][election][result]["vote"])
           total_votes.append(int(outputdatabase[constituency][election]["electorate"]*outputdatabase[constituency][election]["turnout"]/100.0))
-        
-    if not len(party_scores) == 2 : continue
-    if not len(total_votes)  == 2 : continue
+          total_registered.append(int(outputdatabase[constituency][election]["electorate"]))
+          total_turnout.append(int(outputdatabase[constituency][election]["turnout"]))
+ 
+    if not len(party_scores) == 2     : continue
+    if not len(total_votes)  == 2     : continue
+    if not len(total_registered) == 2 : continue
+    if not len(total_turnout) == 2 : continue
+
+    this_gain = party_scores[1]-party_scores[0]
+    this_total_gain = total_votes[1]-total_votes[0]
+    this_registered_increase = total_registered[1]-total_registered[0]
+    this_turnout_increase = total_turnout[1]-total_turnout[0]
+    this_party_majority_prev = 0
+    if (party == outputdatabase[constituency][former_year]["winner"]["party"]) :
+      this_party_majority_prev = +1.*(outputdatabase[constituency][former_year]["winner"]["vote"]-outputdatabase[constituency][former_year]["second"]["vote"])
+    elif (party == outputdatabase[constituency][former_year]["second"]["party"]) :     
+      this_party_majority_prev = -1.*(outputdatabase[constituency][former_year]["winner"]["vote"]-outputdatabase[constituency][former_year]["second"]["vote"])
+    elif (party == outputdatabase[constituency][former_year]["third"]["party"]) :     
+      this_party_majority_prev = -1.*(outputdatabase[constituency][former_year]["winner"]["vote"]-outputdatabase[constituency][former_year]["third"]["vote"])
+    elif (party == outputdatabase[constituency][former_year]["fourth"]["party"]) :     
+      this_party_majority_prev = -1.*(outputdatabase[constituency][former_year]["winner"]["vote"]-outputdatabase[constituency][former_year]["fourth"]["vote"])
+    else :
+      this_party_majority_prev = -9999999999. # default value shouldn't come up for big parties
 
     if (party == outputdatabase[constituency][year]["winner"]["party"]) and \
        not (party == outputdatabase[constituency][former_year]["winner"]["party"]) :
-      party_winning_gain.append(party_scores[1]-party_scores[0])
-      total_winning_gain.append(total_votes[1]-total_votes[0])
+      party_winning_gain.append(this_gain)
+      total_winning_gain.append(this_total_gain) 
+      registered_winning_increase.append(this_registered_increase)
+      turnout_winning_increase.append(this_turnout_increase)
     else : 
-      party_gain.append(party_scores[1]-party_scores[0])
-      total_gain.append(total_votes[1]-total_votes[0])
+      party_gain.append(this_gain)
+      total_gain.append(this_total_gain)
+      registered_increase.append(this_registered_increase)
+      turnout_increase.append(this_turnout_increase)
+    
+    if this_total_gain > 5000 :
+      party_majority_prev_5kplus.append(this_party_majority_prev)
+      total_gain_in_5kplus.append(this_total_gain)      
+    elif this_total_gain > 2000 :
+      party_majority_prev_2kplus.append(this_party_majority_prev)
+      total_gain_in_2kplus.append(this_total_gain)    
+    elif this_total_gain > 0 :        
+      party_majority_prev_0kplus.append(this_party_majority_prev)
+      total_gain_in_0kplus.append(this_total_gain)    
 
-  x = range(-20000,20000)
-  y = range(-20000,20000)
   fig = plt.figure("Extra voters for"+party+" vs. increase in total votes")
   ax1 = fig.add_subplot(111)
-
   ax1.scatter(party_gain,total_gain,c='w',s=36,marker = "s",label = 'All seats')
-  ax1.scatter(party_winning_gain,total_winning_gain,c='r',s=36,marker = "s",label='Labour gains')
+  ax1.scatter(party_winning_gain,total_winning_gain,c='r',s=36,marker = "s",label=party+' gains')
   plt.xlabel(party+' votes gained in '+year)
   plt.ylabel('Extra voters in '+year)
   plt.legend(loc='lower right')
   plt.xlim(-9000,16000)
   plt.ylim(-9000,9000)
+  plt.show()
+
+  fig2 = plt.figure("Increase in overall vote vs. previous party lead in seat")
+  ax2 = fig2.add_subplot(111)
+  ax2.scatter(party_majority_prev_5kplus,total_gain_in_5kplus,c='r',marker = "s",label='>5k extra votes')  
+  ax2.scatter(party_majority_prev_2kplus,total_gain_in_2kplus,c='b',marker = "o",label='>2k extra votes')  
+  ax2.scatter(party_majority_prev_0kplus,total_gain_in_0kplus,c='g',marker = "d",label='>0  extra votes')  
+  plt.xlabel(party+' lead in '+former_year)
+  plt.ylabel('Extra votes in '+year)
+  plt.legend(loc='upper left')
+  plt.plot((0, 0), (0, 20000), 'k--', lw = 2.0)
+  plt.xlim(-20000,20000)
+  plt.ylim(0,10000)
+  plt.show()
+
+  fig3 = plt.figure("Extra voters for"+party+" vs. increase in registered voters")
+  ax3 = fig3.add_subplot(111)
+  ax3.scatter(party_gain,registered_increase,c='w',s=36,marker = "s",label = 'All seats')
+  ax3.scatter(party_winning_gain,registered_winning_increase,c='r',s=36,marker = "s",label=party+' gains')
+  plt.xlabel(party+' votes gained in '+year)
+  plt.ylabel('Extra registrations in '+year)
+  plt.legend(loc='upper left')
+  plt.xlim(-9000,16000)
+  plt.ylim(-9000,9000)
+  plt.show()
+
+  fig4 = plt.figure("Extra voters for"+party+" vs. increase in % turnout")
+  ax4 = fig4.add_subplot(111)
+  ax4.scatter(party_gain,turnout_increase,c='w',s=36,marker = "s",label = 'All seats')
+  ax4.scatter(party_winning_gain,turnout_winning_increase,c='r',s=36,marker = "s",label=party+' gains')
+  plt.xlabel(party+' votes gained in '+year)
+  plt.ylabel('% turnout increase in '+year)
+  plt.legend(loc='upper left')
+  plt.xlim(-9000,16000)
+  plt.ylim(-10,17.5)
   plt.show()
 
   return 1
